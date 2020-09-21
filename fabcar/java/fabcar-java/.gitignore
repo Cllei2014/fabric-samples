@@ -1,7 +1,0 @@
-/bin/
-/target/
-../twbc-fabric-sdk-java-gm/.settings/
-.classpath
-.project
-wallet
-!wallet/.gitkeep
