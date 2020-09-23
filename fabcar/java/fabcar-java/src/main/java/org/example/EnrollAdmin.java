@@ -30,9 +30,11 @@ public class EnrollAdmin {
 
         try {
 
-            String caUrl = "http://localhost:7054";
+            String caUrl = "http://127.0.0.1:7054";
             Properties props = new Properties();
-            props.put("allowAllHostNames", "true");
+//            props.put("allowAllHostNames", "true");
+            props.put("providerName", "GM");
+
             HFCAClient caClient = HFCAClient.createNewInstance(caUrl, props);
             CryptoSuite cryptoSuite = new CryptoSM();
 //					CryptoSM.Factory.getCryptoSuite(getProperties);

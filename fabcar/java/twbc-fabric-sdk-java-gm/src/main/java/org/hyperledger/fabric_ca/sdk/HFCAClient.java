@@ -467,6 +467,8 @@ public class HFCAClient {
 
             if (pem == null) {
                 String csr = cryptoSuite.generateCertificationRequest(user, keypair);
+
+//                        x509Cert.createCSRStr(user, keypair);
                 req.setCSR(csr);
             }
 
@@ -1663,7 +1665,7 @@ public class HFCAClient {
                 }
             };
 
-            sslContext.init(null, new TrustManager[] {tm}, null);
+            sslContext.init(null, new TrustManager[]{tm}, null);
         }
 
         @Override
