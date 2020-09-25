@@ -4,19 +4,15 @@ SPDX-License-Identifier: Apache-2.0
 
 package org.example;
 
-import java.nio.file.Paths;
-import java.util.Properties;
-
 import org.hyperledger.fabric.gateway.Wallet;
 import org.hyperledger.fabric.gateway.Wallet.Identity;
 import org.hyperledger.fabric.sdk.Enrollment;
-import org.hyperledger.fabric.sdk.security.CryptoSM;
 import org.hyperledger.fabric.sdk.security.CryptoSuite;
 import org.hyperledger.fabric.sdk.security.CryptoSuiteFactory;
-import org.hyperledger.fabric_ca.sdk.EnrollmentRequest;
 import org.hyperledger.fabric_ca.sdk.HFCAClient;
 
-import static org.hyperledger.fabric.sdk.helper.Config.SIGNATURE_ALGORITHM;
+import java.nio.file.Paths;
+import java.util.Properties;
 
 public class EnrollAdmin {
 
@@ -29,16 +25,7 @@ public class EnrollAdmin {
         Enrollment enrollment = null;
 
         try {
-
-            String caUrl = "http://127.0.0.1:7054";
-            Properties props = new Properties();
-//            props.put("allowAllHostNames", "true");
-            props.put("providerName", "GM");
-
-            HFCAClient caClient = HFCAClient.createNewInstance(caUrl, props);
-            CryptoSuite cryptoSuite = new CryptoSM();
-//					CryptoSM.Factory.getCryptoSuite(getProperties);
-            caClient.setCryptoSuite(cryptoSuite);
+            HFCAClient caClient = HfcaClientFactory.getHfcaClient();
             enrollment = caClient.enroll("admin", "adminpw");
             System.out.println(caClient.getCAName());
             System.out.println(enrollment.getKey());
@@ -48,6 +35,8 @@ public class EnrollAdmin {
         }
         return enrollment;
     }
+
+
 
     public static Enrollment tls() {
         Enrollment enrollment = null;
@@ -59,8 +48,8 @@ public class EnrollAdmin {
             props.put("pemFile", "../../first-network/crypto-config/peerOrganizations/org1.example.com/ca-config/ca-cert.pem");
             props.put("allowAllHostNames", "true");
             HFCAClient caClient = HFCAClient.createNewInstance("http://localhost:7054", props);
-//		CryptoSuite cryptoSuite = CryptoSuiteFactory.getDefault().getCryptoSuite();
-            CryptoSuite cryptoSuite = new CryptoSM();
+            CryptoSuite cryptoSuite = CryptoSuiteFactory.getDefault().getCryptoSuite();
+//            CryptoSuite cryptoSuite = new CryptoSM();
 
             caClient.setCryptoSuite(cryptoSuite);
 

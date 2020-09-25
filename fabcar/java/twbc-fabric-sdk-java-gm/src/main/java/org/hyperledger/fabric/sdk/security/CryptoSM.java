@@ -3,21 +3,7 @@ package org.hyperledger.fabric.sdk.security;
 import java.io.*;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
-import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
-import java.security.PrivateKey;
-import java.security.Provider;
-import java.security.PublicKey;
-import java.security.SecureRandom;
-import java.security.Security;
-import java.security.Signature;
-import java.security.SignatureException;
+import java.security.*;
 import java.security.cert.CertPath;
 import java.security.cert.CertPathValidator;
 import java.security.cert.CertPathValidatorException;
@@ -27,6 +13,8 @@ import java.security.cert.CertificateFactory;
 import java.security.cert.PKIXParameters;
 import java.security.cert.X509Certificate;
 import java.security.interfaces.ECPrivateKey;
+import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.X509EncodedKeySpec;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import javax.security.auth.x500.X500Principal;
@@ -38,6 +26,7 @@ import org.bouncycastle.asn1.gm.GMNamedCurves;
 import org.bouncycastle.asn1.pkcs.PrivateKeyInfo;
 import org.bouncycastle.asn1.x500.X500Name;
 import org.bouncycastle.asn1.x9.X9ECParameters;
+import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.digests.SHA256Digest;
 import org.bouncycastle.crypto.digests.SM3Digest;
@@ -47,6 +36,10 @@ import org.bouncycastle.crypto.params.ECPublicKeyParameters;
 import org.bouncycastle.crypto.params.ParametersWithID;
 import org.bouncycastle.crypto.params.ParametersWithRandom;
 import org.bouncycastle.crypto.signers.SM2Signer;
+import org.bouncycastle.crypto.util.PrivateKeyFactory;
+import org.bouncycastle.crypto.util.PrivateKeyInfoFactory;
+import org.bouncycastle.crypto.util.SubjectPublicKeyInfoFactory;
+import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPrivateKey;
 import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPublicKey;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.jce.spec.ECParameterSpec;
@@ -209,9 +202,19 @@ public class CryptoSM implements CryptoSuite {
     }
 
 
+    private static KeyPair convertBcToJceKeyPair(AsymmetricCipherKeyPair bcKeyPair) throws Exception {
+        byte[] pkcs8Encoded = PrivateKeyInfoFactory.createPrivateKeyInfo(bcKeyPair.getPrivate()).getEncoded();
+        PKCS8EncodedKeySpec pkcs8KeySpec = new PKCS8EncodedKeySpec(pkcs8Encoded);
+        byte[] spkiEncoded = SubjectPublicKeyInfoFactory.createSubjectPublicKeyInfo(bcKeyPair.getPublic()).getEncoded();
+        X509EncodedKeySpec spkiKeySpec = new X509EncodedKeySpec(spkiEncoded);
+        KeyFactory keyFac = KeyFactory.getInstance("EC");
+        return new KeyPair(keyFac.generatePublic(spkiKeySpec), keyFac.generatePrivate(pkcs8KeySpec));
+    }
+
     @Override
     public KeyPair keyGen() {
         try {
+//            AsymmetricCipherKeyPair asymmetricCipherKeyPair = SM2Util.generateKeyPairParameter();
             return SM2Util.generateKeyPair();
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -238,41 +241,13 @@ public class CryptoSM implements CryptoSuite {
     public byte[] sign(PrivateKey key, byte[] plainText) throws CryptoException {
         logger.debug("SM Signature");
         try {
-            Signature signer = Signature.getInstance(CURVE_ALGORITHM, PROVIDER_SHORTNAME);
-            SecureRandom random = new SecureRandom();
-            signer.initSign(key, random);
-            signer.update(plainText, 0, plainText.length);
-            byte[] sig = signer.sign();
-            return sig;
-        } catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchProviderException | SignatureException e) {
+            byte[] sign = SM2Util.sign((BCECPrivateKey) key, plainText);
+            return sign;
+        } catch (org.bouncycastle.crypto.CryptoException e) {
             throw new CryptoException("Unable to sign", e);
         }
     }
 
-    public byte[] sign(ECPrivateKeyParameters key, byte[] plainText) throws CryptoException {
-        return this.sign(key, plainText, null);
-    }
-
-    public byte[] sign(ECPrivateKeyParameters key, byte[] plainText, byte[] withId) throws CryptoException {
-        SM2Signer signer = new SM2Signer();
-        CipherParameters param;
-        ParametersWithRandom pwr = new ParametersWithRandom(key, new SecureRandom());
-        if (withId != null) {
-            param = new ParametersWithID(pwr, withId);
-        } else {
-            param = pwr;
-        }
-
-        signer.init(true, param);
-        signer.update(plainText, 0, plainText.length);
-
-        try {
-            byte[] sigdata = signer.generateSignature();
-            return sigdata;
-        } catch (org.bouncycastle.crypto.CryptoException var9) {
-            throw new CryptoException(var9.getMessage());
-        }
-    }
 
     @Override
     public boolean verify(byte[] pemCertificate, String signatureAlgorithm, byte[] signature, byte[] plainText)

@@ -461,14 +461,11 @@ public class HFCAClient {
 
                 // generate ECDSA keys: signing and encryption keys
                 keypair = cryptoSuite.keyGen();
-
                 logger.debug("[HFCAClient.enroll] Generating keys...done!");
             }
 
             if (pem == null) {
                 String csr = cryptoSuite.generateCertificationRequest(user, keypair);
-
-//                        x509Cert.createCSRStr(user, keypair);
                 req.setCSR(csr);
             }
 
