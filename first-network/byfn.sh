@@ -152,17 +152,43 @@ function checkPrereqs() {
 # Generate the needed certificates, the genesis block and start the network.
 function networkUp() {
   checkPrereqs
-  # generate artifacts if they don't exist
-  if [ ! -d "crypto-config" ]; then
-    generateCerts
-    replacePrivateKey
-    generateChannelArtifacts
-  fi
   COMPOSE_FILES="-f ${COMPOSE_FILE}"
+
   if [ "${CERTIFICATE_AUTHORITIES}" == "true" ]; then
-    COMPOSE_FILES="${COMPOSE_FILES} -f ${COMPOSE_FILE_CA}"
-    export BYFN_CA1_PRIVATE_KEY=$(cd crypto-config/peerOrganizations/org1.example.com/ca && ls *_sk)
-    export BYFN_CA2_PRIVATE_KEY=$(cd crypto-config/peerOrganizations/org2.example.com/ca && ls *_sk)
+    if [ -d "crypto-config" ]; then
+      rm -Rf crypto-config
+    fi
+
+    IMAGE_TAG=$IMAGETAG docker-compose -f ${COMPOSE_FILE_CA} up -d 2>&1
+    . fabric-ca/registerEnroll.sh
+
+    while :
+      do
+        if [ ! -f "fabric-ca/org1/ca-cert.pem" ]; then
+          sleep 1
+          echo "wait for ca server startd..."
+        else
+          break
+        fi
+      done
+
+    infoln "Create Org1 Identities"
+    createOrg1
+
+    infoln "Create Org2 Identities"
+    createOrg2
+
+    infoln "Create Orderer Org Identities"
+    createOrderer
+
+    generateChannelArtifacts
+  else
+    #generate artifacts if they don't exist
+    if [ ! -d "crypto-config" ]; then
+      generateCerts
+      replacePrivateKey
+      generateChannelArtifacts
+    fi
   fi
   if [ "${CONSENSUS_TYPE}" == "kafka" ]; then
     COMPOSE_FILES="${COMPOSE_FILES} -f ${COMPOSE_FILE_KAFKA}"
