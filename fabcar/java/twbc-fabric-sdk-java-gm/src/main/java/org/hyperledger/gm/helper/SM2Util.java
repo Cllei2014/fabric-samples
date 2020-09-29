@@ -5,6 +5,8 @@ import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.CryptoException;
 import org.bouncycastle.crypto.InvalidCipherTextException;
+import org.bouncycastle.crypto.digests.SHA512Digest;
+import org.bouncycastle.crypto.digests.SM3Digest;
 import org.bouncycastle.crypto.engines.SM2Engine;
 import org.bouncycastle.crypto.engines.SM2Engine.Mode;
 import org.bouncycastle.crypto.params.*;
@@ -456,6 +458,7 @@ public class SM2Util extends GMBaseUtil {
     public static byte[] sign(ECPrivateKeyParameters priKeyParameters, byte[] withId, byte[] srcData)
             throws CryptoException {
         SM2Signer signer = new SM2Signer();
+
         CipherParameters param = null;
         ParametersWithRandom pwr = new ParametersWithRandom(priKeyParameters, new SecureRandom());
         if (withId != null) {

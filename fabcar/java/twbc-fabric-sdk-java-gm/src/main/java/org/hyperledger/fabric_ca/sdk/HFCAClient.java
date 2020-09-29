@@ -1528,6 +1528,7 @@ public class HFCAClient {
     }
 
     String getHTTPAuthCertificate(Enrollment enrollment, String method, String url, String body) throws Exception {
+
         Base64.Encoder b64 = Base64.getEncoder();
         String cert = b64.encodeToString(enrollment.getCert().getBytes(UTF_8));
         body = b64.encodeToString(body.getBytes(UTF_8));
@@ -1558,7 +1559,9 @@ public class HFCAClient {
             signString = body + "." + cert;
         }
 
-        byte[] signature = cryptoSuite.sign(enrollment.getKey(), signString.getBytes(UTF_8));
+
+        byte[] signStringByte = cryptoSuite.hash(signString.getBytes(UTF_8));
+        byte[] signature = cryptoSuite.sign(enrollment.getKey(), signStringByte);
         return cert + "." + b64.encodeToString(signature);
     }
 

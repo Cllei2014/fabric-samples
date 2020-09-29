@@ -25,6 +25,7 @@ import org.apache.commons.logging.LogFactory;
 import org.bouncycastle.asn1.gm.GMNamedCurves;
 import org.bouncycastle.asn1.pkcs.PrivateKeyInfo;
 import org.bouncycastle.asn1.x500.X500Name;
+import org.bouncycastle.asn1.x509.SubjectPublicKeyInfo;
 import org.bouncycastle.asn1.x9.X9ECParameters;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.CipherParameters;
@@ -64,6 +65,7 @@ import org.hyperledger.fabric.sdk.exception.InvalidArgumentException;
 import org.hyperledger.fabric.sdk.helper.Config;
 import org.hyperledger.fabric.sdk.helper.DiagnosticFileDumper;
 import org.hyperledger.gm.helper.SM2Util;
+import org.hyperledger.gm.helper.SM3Util;
 import org.hyperledger.gm.helper.cert.CommonUtil;
 import org.hyperledger.gm.helper.cert.SM2PublicKey;
 import org.hyperledger.gm.helper.cert.SM2X509CertMaker;
@@ -248,7 +250,6 @@ public class CryptoSM implements CryptoSuite {
         }
     }
 
-
     @Override
     public boolean verify(byte[] pemCertificate, String signatureAlgorithm, byte[] signature, byte[] plainText)
             throws CryptoException {
@@ -283,24 +284,11 @@ public class CryptoSM implements CryptoSuite {
     }
 
     public boolean verify(PublicKey pubKey, byte[] withId, byte[] srcData, byte[] sign) {
-        ECPublicKeyParameters pubkey = this.getPublicKey(pubKey);
-        boolean isVerified = this.verify(pubkey, withId, srcData, sign);
+        boolean isVerified = SM2Util.verify((BCECPublicKey) pubKey, withId, srcData, sign);
         return isVerified;
     }
 
-    public boolean verify(ECPublicKeyParameters pubKey, byte[] withId, byte[] srcData, byte[] sign) {
-        SM2Signer signer = new SM2Signer();
-        CipherParameters param = null;
-        if (withId != null) {
-            param = new ParametersWithID(pubKey, withId);
-        } else {
-            param = pubKey;
-        }
 
-        signer.init(false, param);
-        signer.update(srcData, 0, srcData.length);
-        return signer.verifySignature(sign);
-    }
 
     @SuppressWarnings("unchecked")
     private X509Certificate getX509Certificate(byte[] pemCertificate) throws CryptoException {
@@ -372,11 +360,7 @@ public class CryptoSM implements CryptoSuite {
 
     @Override
     public byte[] hash(byte[] plainText) {
-        SM3Digest digest = new SM3Digest();
-        digest.update(plainText, 0, plainText.length);
-        byte[] hash = new byte[digest.getDigestSize()];
-        digest.doFinal(hash, 0);
-        return hash;
+        return SM3Util.hash(plainText);
     }
 
     @Override
@@ -590,6 +574,15 @@ public class CryptoSM implements CryptoSuite {
 
         Object object = pemParser.readObject();
         return converter.getPrivateKey((PrivateKeyInfo) object);
+    }
+
+    public PublicKey bytesToPublicKey(byte[] pemKey) throws Exception {
+        Reader pemReader = new StringReader(new String(pemKey, StandardCharsets.UTF_8));
+        PEMParser pemParser = new PEMParser(pemReader);
+        JcaPEMKeyConverter converter = (new JcaPEMKeyConverter());
+
+        Object object = pemParser.readObject();
+        return converter.getPublicKey((SubjectPublicKeyInfo) object);
     }
 
     @Override
