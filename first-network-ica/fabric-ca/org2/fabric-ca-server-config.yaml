@@ -88,11 +88,11 @@ ca:
   # Name of this CA
   name: ca1
   # Key file (is only used to import a private key into BCCSP)
-  keyfile:
+  keyfile: ica.key
   # Certificate file (default: ca-cert.pem)
-  certfile:
+  certfile: ica.cert
   # Chain file
-  chainfile:
+  chainfile: ica_chain.cert
 
 #############################################################################
 #  The gencrl REST endpoint is used to generate a CRL that contains revoked

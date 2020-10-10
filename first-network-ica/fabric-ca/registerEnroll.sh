@@ -133,16 +133,16 @@ function createOrg2() {
   echo 'NodeOUs:
   Enable: true
   ClientOUIdentifier:
-    Certificate: cacerts/localhost-8054-ca-org2.pem
+    Certificate: intermediatecerts/localhost-8054-ca-org2.pem
     OrganizationalUnitIdentifier: client
   PeerOUIdentifier:
-    Certificate: cacerts/localhost-8054-ca-org2.pem
+    Certificate: intermediatecerts/localhost-8054-ca-org2.pem
     OrganizationalUnitIdentifier: peer
   AdminOUIdentifier:
-    Certificate: cacerts/localhost-8054-ca-org2.pem
+    Certificate: intermediatecerts/localhost-8054-ca-org2.pem
     OrganizationalUnitIdentifier: admin
   OrdererOUIdentifier:
-    Certificate: cacerts/localhost-8054-ca-org2.pem
+    Certificate: intermediatecerts/localhost-8054-ca-org2.pem
     OrganizationalUnitIdentifier: orderer' >${PWD}/crypto-config/peerOrganizations/org2.example.com/msp/config.yaml
 
   infoln "Register peer0"
@@ -187,7 +187,7 @@ function createOrg2() {
   fabric-ca-client enroll -u http://peer0:peer0pw@localhost:8054 --caname ca-org2 -M ${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls --enrollment.profile tls --csr.hosts peer0.org2.example.com --csr.hosts localhost ##--tls.certfiles ${PWD}/crypto-config/fabric-ca/org2/tls-cert.pem
   { set +x; } 2>/dev/null
 
-  cp ${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/tlscacerts/* ${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt
+  cp ${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/tlsintermediatecerts/* ${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt
   cp ${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/signcerts/* ${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/server.crt
   cp ${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/keystore/* ${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/server.key
 
@@ -196,15 +196,15 @@ function createOrg2() {
   fabric-ca-client enroll -u http://peer1:peer1pw@localhost:8054 --caname ca-org2 -M ${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/tls --enrollment.profile tls --csr.hosts peer1.org2.example.com --csr.hosts localhost ##--tls.certfiles ${PWD}/crypto-config/fabric-ca/org2/tls-cert.pem
   { set +x; } 2>/dev/null
 
-  cp ${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/tls/tlscacerts/* ${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/tls/ca.crt
+  cp ${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/tls/tlsintermediatecerts/* ${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/tls/ca.crt
   cp ${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/tls/signcerts/* ${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/tls/server.crt
   cp ${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/tls/keystore/* ${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/tls/server.key
 
-  mkdir -p ${PWD}/crypto-config/peerOrganizations/org2.example.com/msp/tlscacerts
-  cp ${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/tlscacerts/* ${PWD}/crypto-config/peerOrganizations/org2.example.com/msp/tlscacerts/ca.crt
+  mkdir -p ${PWD}/crypto-config/peerOrganizations/org2.example.com/msp/tlsintermediatecerts
+  cp ${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/tlsintermediatecerts/* ${PWD}/crypto-config/peerOrganizations/org2.example.com/msp/tlsintermediatecerts/ca.crt
 
   mkdir -p ${PWD}/crypto-config/peerOrganizations/org2.example.com/tlsca
-  cp ${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/tlscacerts/* ${PWD}/crypto-config/peerOrganizations/org2.example.com/tlsca/tlsca.org2.example.com-cert.pem
+  cp ${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/tlsintermediatecerts/* ${PWD}/crypto-config/peerOrganizations/org2.example.com/tlsca/tlsca.org2.example.com-cert.pem
 
   mkdir -p ${PWD}/crypto-config/peerOrganizations/org2.example.com/ca
   cp ${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/msp/cacerts/* ${PWD}/crypto-config/peerOrganizations/org2.example.com/ca/ca.org2.example.com-cert.pem
@@ -246,16 +246,16 @@ function createOrderer() {
   echo 'NodeOUs:
   Enable: true
   ClientOUIdentifier:
-    Certificate: cacerts/localhost-9054-ca-orderer.pem
+    Certificate: intermediatecerts/localhost-9054-ca-orderer.pem
     OrganizationalUnitIdentifier: client
   PeerOUIdentifier:
-    Certificate: cacerts/localhost-9054-ca-orderer.pem
+    Certificate: intermediatecerts/localhost-9054-ca-orderer.pem
     OrganizationalUnitIdentifier: peer
   AdminOUIdentifier:
-    Certificate: cacerts/localhost-9054-ca-orderer.pem
+    Certificate: intermediatecerts/localhost-9054-ca-orderer.pem
     OrganizationalUnitIdentifier: admin
   OrdererOUIdentifier:
-    Certificate: cacerts/localhost-9054-ca-orderer.pem
+    Certificate: intermediatecerts/localhost-9054-ca-orderer.pem
     OrganizationalUnitIdentifier: orderer' >${PWD}/crypto-config/ordererOrganizations/example.com/msp/config.yaml
 
   infoln "Register orderer"
@@ -285,15 +285,15 @@ function createOrderer() {
   fabric-ca-client enroll -u http://orderer:ordererpw@localhost:9054 --caname ca-orderer -M ${PWD}/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tls --enrollment.profile tls --csr.hosts orderer.example.com --csr.hosts localhost #--tls.certfiles ${PWD}/crypto-config/fabric-ca/ordererOrg/tls-cert.pem
   { set +x; } 2>/dev/null
 
-  cp ${PWD}/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tls/tlscacerts/* ${PWD}/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tls/ca.crt
+  cp ${PWD}/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tls/tlsintermediatecerts/* ${PWD}/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tls/ca.crt
   cp ${PWD}/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tls/signcerts/* ${PWD}/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tls/server.crt
   cp ${PWD}/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tls/keystore/* ${PWD}/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tls/server.key
 
-  mkdir -p ${PWD}/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts
-  cp ${PWD}/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tls/tlscacerts/* ${PWD}/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
+  mkdir -p ${PWD}/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlsintermediatecerts
+  cp ${PWD}/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tls/tlsintermediatecerts/* ${PWD}/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlsintermediatecerts/tlsca.example.com-cert.pem
 
-  mkdir -p ${PWD}/crypto-config/ordererOrganizations/example.com/msp/tlscacerts
-  cp ${PWD}/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tls/tlscacerts/* ${PWD}/crypto-config/ordererOrganizations/example.com/msp/tlscacerts/tlsca.example.com-cert.pem
+  mkdir -p ${PWD}/crypto-config/ordererOrganizations/example.com/msp/tlsintermediatecerts
+  cp ${PWD}/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tls/tlsintermediatecerts/* ${PWD}/crypto-config/ordererOrganizations/example.com/msp/tlsintermediatecerts/tlsca.example.com-cert.pem
 
   mkdir -p crypto-config/ordererOrganizations/example.com/users
   mkdir -p crypto-config/ordererOrganizations/example.com/users/Admin@example.com
