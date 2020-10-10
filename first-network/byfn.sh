@@ -152,19 +152,25 @@ function checkPrereqs() {
 # Generate the needed certificates, the genesis block and start the network.
 function networkUp() {
   checkPrereqs
-  COMPOSE_FILES="-f ${COMPOSE_FILE}"
-
+    COMPOSE_FILES="-f ${COMPOSE_FILE}"
   if [ "${CERTIFICATE_AUTHORITIES}" == "true" ]; then
     if [ -d "crypto-config" ]; then
-      rm -Rf crypto-config
+     sudo rm -Rf crypto-config
     fi
 
+    if [ -d "fabric-ca-config" ]; then
+     sudo rm -Rf fabric-ca-config
+    fi
+
+    sudo cp -Rp fabric-ca fabric-ca-config
+
+
     IMAGE_TAG=$IMAGETAG docker-compose -f ${COMPOSE_FILE_CA} up -d 2>&1
-    . fabric-ca/registerEnroll.sh
+    . fabric-ca-config/registerEnroll.sh
 
     while :
       do
-        if [ ! -f "fabric-ca/org1/ca-cert.pem" ]; then
+        if [ ! -f "fabric-ca-config/org1/IssuerPublicKey" ]; then
           sleep 1
           echo "wait for ca server startd..."
         else
@@ -190,6 +196,7 @@ function networkUp() {
       generateChannelArtifacts
     fi
   fi
+
   if [ "${CONSENSUS_TYPE}" == "kafka" ]; then
     COMPOSE_FILES="${COMPOSE_FILES} -f ${COMPOSE_FILE_KAFKA}"
   elif [ "${CONSENSUS_TYPE}" == "etcdraft" ]; then
@@ -216,6 +223,7 @@ function networkUp() {
     echo "Sleeping 15s to allow $CONSENSUS_TYPE cluster to complete booting"
     sleep 14
   fi
+
 
   # now run the end to end script
   docker exec cli scripts/script.sh $CHANNEL_NAME $CLI_DELAY $LANGUAGE $CLI_TIMEOUT $VERBOSE $NO_CHAINCODE
