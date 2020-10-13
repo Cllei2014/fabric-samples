@@ -13,68 +13,62 @@ pipeline {
                 IMAGE_ORDERER = "${DOCKER_REGISTRY}/${params.IMAGE_ORDERER}"
                 IMAGE_CA = "${DOCKER_REGISTRY}/${params.IMAGE_CA}"
                 IMAGE_TOOLS = "${DOCKER_REGISTRY}/${params.IMAGE_TOOLS}"
-                BYNF_CA = "no"
+                BYFN_CA = "no"
             }
 
             steps {
                 echo "Clean fabcar"
                 sh '''
-                docker run -it --rm \
-                    -u "$(id -u)" \
-                    -v "/etc/passwd:/etc/passwd:ro" \
+                docker run --rm \
                     -v "$PWD:$PWD" \
                     -v "$(which docker):$(which docker)" \
                     -v "$(which docker-compose):$(which docker-compose)" \
                     -v "/var/run/docker.sock:/var/run/docker.sock" \
-                    -w "$PWD/fabcr" \
+                    -w "$PWD/fabcar" \
                     -e "IMAGE_PEER" \
                     -e "IMAGE_ORDERER" \
                     -e "IMAGE_CA" \
                     -e "IMAGE_TOOLS" \
-                    -e "BYNF_CA" \
-                    $(IMAGE_TOOLS) \
-                    twbc/fabric-tools-gm \
+                    -e "BYFN_CA" \
+                    $IMAGE_TOOLS \
                     ./stopFabric.sh
                 '''
 
                 echo "Start fabcar"
                 sh '''
-                docker run -it --rm \
-                    -u "$(id -u)" \
-                    -v "/etc/passwd:/etc/passwd:ro" \
+                docker run --rm \
                     -v "$PWD:$PWD" \
                     -v "$(which docker):$(which docker)" \
                     -v "$(which docker-compose):$(which docker-compose)" \
                     -v "/var/run/docker.sock:/var/run/docker.sock" \
-                    -w "$PWD/fabcr" \
+                    -w "$PWD/fabcar" \
                     -e "IMAGE_PEER" \
                     -e "IMAGE_ORDERER" \
                     -e "IMAGE_CA" \
                     -e "IMAGE_TOOLS" \
-                    -e "BYNF_CA" \
-                    $(IMAGE_TOOLS) \
+                    -e "BYFN_CA" \
+                    $IMAGE_TOOLS \
                     ./startFabric.sh
                 '''
 
                 echo "Clean fabcar"
                 sh '''
-                docker run -it --rm \
-                    -u "$(id -u)" \
-                    -v "/etc/passwd:/etc/passwd:ro" \
+                docker run --rm \
                     -v "$PWD:$PWD" \
                     -v "$(which docker):$(which docker)" \
                     -v "$(which docker-compose):$(which docker-compose)" \
                     -v "/var/run/docker.sock:/var/run/docker.sock" \
-                    -w "$PWD/fabcr" \
+                    -w "$PWD/fabcar" \
                     -e "IMAGE_PEER" \
                     -e "IMAGE_ORDERER" \
                     -e "IMAGE_CA" \
                     -e "IMAGE_TOOLS" \
-                    -e "BYNF_CA" \
-                    $(IMAGE_TOOLS) \
+                    -e "BYFN_CA" \
+                    $IMAGE_TOOLS \
                     ./stopFabric.sh
                 '''
             }
         }
     }
 }
+

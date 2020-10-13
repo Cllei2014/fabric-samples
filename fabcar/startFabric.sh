@@ -46,13 +46,10 @@ echo y | ./byfn.sh down
 
 : ${BYFN_CA:-yes}
 if [ "$BYFN_CA" = "no" ] ; then
-	echo ./byfn.sh up -n -s couchdb
+	echo y | ./byfn.sh up -n -s couchdb
 else
-	echo ./byfn.sh up -a -n -s couchdb
+	echo y | ./byfn.sh up -a -n -s couchdb
 fi
-
-exit
-
 
 CONFIG_ROOT=/opt/gopath/src/github.com/hyperledger/fabric/peer
 ORG1_MSPCONFIGPATH=${CONFIG_ROOT}/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp
