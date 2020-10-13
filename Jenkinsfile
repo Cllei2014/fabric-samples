@@ -1,18 +1,18 @@
 pipeline {
     agent any
     parameters {
-        string(name: 'IMAGE_PEER', defaultValue: 'twbc/fabric-peer-gm:latest')
-        string(name: 'IMAGE_ORDERER', defaultValue: 'twbc/fabric-orderer-gm:latest')
-        string(name: 'IMAGE_CA', defaultValue: 'twbc/fabric-ca-gm:latest')
-        string(name: 'IMAGE_TOOLS', defaultValue: 'twbc/fabric-tools-gm:latest')
+        string(name: 'IMAGE_PEER', defaultValue: "${DOCKER_REGISTRY}/twbc/fabric-peer-gm:latest")
+        string(name: 'IMAGE_ORDERER', defaultValue: "${DOCKER_REGISTRY}/twbc/fabric-orderer-gm:latest")
+        string(name: 'IMAGE_CA', defaultValue: "${DOCKER_REGISTRY}/twbc/fabric-ca-gm:latest")
+        string(name: 'IMAGE_TOOLS', defaultValue: "${DOCKER_REGISTRY}/twbc/fabric-tools-gm:latest")
     }
     stages {
         stage('Test Fabcar') {
             environment {
-                IMAGE_PEER = "${DOCKER_REGISTRY}/${params.IMAGE_PEER}"
-                IMAGE_ORDERER = "${DOCKER_REGISTRY}/${params.IMAGE_ORDERER}"
-                IMAGE_CA = "${DOCKER_REGISTRY}/${params.IMAGE_CA}"
-                IMAGE_TOOLS = "${DOCKER_REGISTRY}/${params.IMAGE_TOOLS}"
+                IMAGE_PEER = params.IMAGE_PEER
+                IMAGE_ORDERER = params.IMAGE_ORDERER
+                IMAGE_CA = params.IMAGE_CA
+                IMAGE_TOOLS = params.IMAGE_TOOLS
                 BYFN_CA = "no"
             }
 
