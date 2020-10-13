@@ -9,10 +9,10 @@ pipeline {
     stages {
         stage('Test Fabcar') {
             environment {
-                IMAGE_PEER = "${DOCKER_REGISTRY}/${params.IMAGE_PEER}
-                IMAGE_ORDERER = "${DOCKER_REGISTRY}/${params.IMAGE_ORDERER}
-                IMAGE_CA = "${DOCKER_REGISTRY}/${params.IMAGE_CA}
-                IMAGE_TOOLS = "${DOCKER_REGISTRY}/${params.IMAGE_TOOLS}
+                IMAGE_PEER = "${DOCKER_REGISTRY}/${params.IMAGE_PEER}"
+                IMAGE_ORDERER = "${DOCKER_REGISTRY}/${params.IMAGE_ORDERER}"
+                IMAGE_CA = "${DOCKER_REGISTRY}/${params.IMAGE_CA}"
+                IMAGE_TOOLS = "${DOCKER_REGISTRY}/${params.IMAGE_TOOLS}"
             }
 
             steps {
