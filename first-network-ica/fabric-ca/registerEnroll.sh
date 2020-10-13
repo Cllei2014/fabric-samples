@@ -79,15 +79,6 @@ function createOrg1() {
   cp ${PWD}/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/signcerts/* ${PWD}/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/server.crt
   cp ${PWD}/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/keystore/* ${PWD}/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/server.key
 
-  mkdir -p ${PWD}/crypto-config/peerOrganizations/org1.example.com/msp/tlsintermediatecerts
-  cp ${PWD}/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/tlsintermediatecerts/* ${PWD}/crypto-config/peerOrganizations/org1.example.com/msp/tlsintermediatecerts/ca.crt
-
-  mkdir -p ${PWD}/crypto-config/peerOrganizations/org1.example.com/tlsca
-  cp ${PWD}/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/tlsintermediatecerts/* ${PWD}/crypto-config/peerOrganizations/org1.example.com/tlsca/tlsca.org1.example.com-cert.pem
-
-  mkdir -p ${PWD}/crypto-config/peerOrganizations/org1.example.com/ca
-  cp ${PWD}/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/msp/cacerts/* ${PWD}/crypto-config/peerOrganizations/org1.example.com/ca/ca.org1.example.com-cert.pem
-
   infoln "Generate the peer1-tls certificates"
   set -x
   fabric-ca-client enroll -u http://peer1:peer1pw@localhost:7054 --caname ca-org1 -M ${PWD}/crypto-config/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/tls --enrollment.profile tls --csr.hosts peer1.org1.example.com --csr.hosts localhost ###--tls.certfiles ${PWD}/crypto-config/fabric-ca/org1/tls-cert.pem
@@ -123,8 +114,6 @@ function createOrg2() {
   mkdir -p crypto-config/peerOrganizations/org2.example.com/
 
   export FABRIC_CA_CLIENT_HOME=${PWD}/crypto-config/peerOrganizations/org2.example.com/
-  #  rm -rf $FABRIC_CA_CLIENT_HOME/fabric-ca-client-config.yaml
-  #  rm -rf $FABRIC_CA_CLIENT_HOME/msp
 
   set -x
   fabric-ca-client enroll -u http://admin:adminpw@localhost:8054 --caname ca-org2 ##--tls.certfiles ${PWD}/crypto-config/fabric-ca/org2/tls-cert.pem
@@ -200,15 +189,6 @@ function createOrg2() {
   cp ${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/tls/signcerts/* ${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/tls/server.crt
   cp ${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/tls/keystore/* ${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/tls/server.key
 
-  mkdir -p ${PWD}/crypto-config/peerOrganizations/org2.example.com/msp/tlsintermediatecerts
-  cp ${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/tlsintermediatecerts/* ${PWD}/crypto-config/peerOrganizations/org2.example.com/msp/tlsintermediatecerts/ca.crt
-
-  mkdir -p ${PWD}/crypto-config/peerOrganizations/org2.example.com/tlsca
-  cp ${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/tlsintermediatecerts/* ${PWD}/crypto-config/peerOrganizations/org2.example.com/tlsca/tlsca.org2.example.com-cert.pem
-
-  mkdir -p ${PWD}/crypto-config/peerOrganizations/org2.example.com/ca
-  cp ${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/msp/cacerts/* ${PWD}/crypto-config/peerOrganizations/org2.example.com/ca/ca.org2.example.com-cert.pem
-
   mkdir -p crypto-config/peerOrganizations/org2.example.com/users
   mkdir -p crypto-config/peerOrganizations/org2.example.com/users/User1@org2.example.com
 
@@ -236,8 +216,6 @@ function createOrderer() {
   mkdir -p crypto-config/ordererOrganizations/example.com
 
   export FABRIC_CA_CLIENT_HOME=${PWD}/crypto-config/ordererOrganizations/example.com
-  #  rm -rf $FABRIC_CA_CLIENT_HOME/fabric-ca-client-config.yaml
-  #  rm -rf $FABRIC_CA_CLIENT_HOME/msp
 
   set -x
   fabric-ca-client enroll -u http://admin:adminpw@localhost:9054 --caname ca-orderer #--tls.certfiles ${PWD}/crypto-config/fabric-ca/ordererOrg/tls-cert.pem
