@@ -10,7 +10,7 @@ pipeline {
         stage('Test Fabcar') {
             environment {
                 IMAGE_PEER = "${params.IMAGE_PEER}"
-                IMAGE_ORDERER = "${params.IMAGE_ORDERER}
+                IMAGE_ORDERER = "${params.IMAGE_ORDERER}"
                 IMAGE_CA = "${params.IMAGE_CA}"
                 IMAGE_TOOLS = "${params.IMAGE_TOOLS}"
                 BYFN_CA = "no"
