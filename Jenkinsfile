@@ -21,53 +21,17 @@ pipeline {
 
                 echo "Clean fabcar"
                 sh '''
-                docker run --rm \
-                    -v "$PWD:$PWD" \
-                    -v "$(which docker):$(which docker)" \
-                    -v "$(which docker-compose):$(which docker-compose)" \
-                    -v "/var/run/docker.sock:/var/run/docker.sock" \
-                    -w "$PWD/fabcar" \
-                    -e "IMAGE_PEER" \
-                    -e "IMAGE_ORDERER" \
-                    -e "IMAGE_CA" \
-                    -e "IMAGE_TOOLS" \
-                    -e "BYFN_CA" \
-                    $IMAGE_TOOLS \
-                    ./stopFabric.sh
+                ./scripts/ci_scripts/test_fabcar.sh stopFabric.sh
                 '''
 
                 echo "Start fabcar"
                 sh '''
-                docker run --rm \
-                    -v "$PWD:$PWD" \
-                    -v "$(which docker):$(which docker)" \
-                    -v "$(which docker-compose):$(which docker-compose)" \
-                    -v "/var/run/docker.sock:/var/run/docker.sock" \
-                    -w "$PWD/fabcar" \
-                    -e "IMAGE_PEER" \
-                    -e "IMAGE_ORDERER" \
-                    -e "IMAGE_CA" \
-                    -e "IMAGE_TOOLS" \
-                    -e "BYFN_CA" \
-                    $IMAGE_TOOLS \
-                    ./startFabric.sh
+                ./scripts/ci_scripts/test_fabcar.sh startFabric.sh
                 '''
 
                 echo "Clean fabcar"
                 sh '''
-                docker run --rm \
-                    -v "$PWD:$PWD" \
-                    -v "$(which docker):$(which docker)" \
-                    -v "$(which docker-compose):$(which docker-compose)" \
-                    -v "/var/run/docker.sock:/var/run/docker.sock" \
-                    -w "$PWD/fabcar" \
-                    -e "IMAGE_PEER" \
-                    -e "IMAGE_ORDERER" \
-                    -e "IMAGE_CA" \
-                    -e "IMAGE_TOOLS" \
-                    -e "BYFN_CA" \
-                    $IMAGE_TOOLS \
-                    ./stopFabric.sh
+                ./scripts/ci_scripts/test_fabcar.sh stopFabric.sh
                 '''
             }
         }
