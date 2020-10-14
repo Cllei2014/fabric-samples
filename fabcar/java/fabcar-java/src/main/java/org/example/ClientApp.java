@@ -13,6 +13,7 @@ import org.hyperledger.fabric.gateway.Network;
 import org.hyperledger.fabric.gateway.Wallet;
 
 public class ClientApp {
+	static String userName = "user6";
 
 	static {
 		System.setProperty("org.hyperledger.fabric.sdk.service_discovery.as_localhost", "true");
@@ -27,7 +28,7 @@ public class ClientApp {
 		Path networkConfigPath = Paths.get("..", "..", "first-network", "connection-org1.yaml");
 
 		Gateway.Builder builder = Gateway.createBuilder();
-		builder.identity(wallet, "user1").networkConfig(networkConfigPath).discovery(true);
+		builder.identity(wallet, userName).networkConfig(networkConfigPath).discovery(true);
 
 		// create a gateway connection
 		try (Gateway gateway = builder.connect()) {

@@ -24,6 +24,8 @@ import org.hyperledger.fabric_ca.sdk.RegistrationRequest;
 
 public class RegisterUser {
 
+    static String userName = "user1";
+
     static {
         System.setProperty("org.hyperledger.fabric.sdk.service_discovery.as_localhost", "true");
     }
@@ -36,7 +38,7 @@ public class RegisterUser {
         Wallet wallet = Wallet.createFileSystemWallet(Paths.get("wallet"));
 
         // Check to see if we've already enrolled the user.
-        boolean userExists = wallet.exists("user1");
+        boolean userExists = wallet.exists(userName);
         if (userExists) {
             System.out.println("An identity for the user \"user1\" already exists in the wallet");
             return;
@@ -95,14 +97,14 @@ public class RegisterUser {
         };
 
         // Register the user, enroll the user, and import the new identity into the wallet.
-        RegistrationRequest registrationRequest = new RegistrationRequest("user1");
+        RegistrationRequest registrationRequest = new RegistrationRequest(userName);
         registrationRequest.setAffiliation("org1.department1");
-        registrationRequest.setEnrollmentID("user1");
+        registrationRequest.setEnrollmentID(userName);
         String enrollmentSecret = caClient.register(registrationRequest, admin);
-        Enrollment enrollment = caClient.enroll("user1", enrollmentSecret);
+        Enrollment enrollment = caClient.enroll(userName, enrollmentSecret);
         Identity user = Identity.createIdentity("Org1MSP", enrollment.getCert(), enrollment.getKey());
-        wallet.put("user1", user);
-        System.out.println("Successfully enrolled user \"user1\" and imported it into the wallet");
+        wallet.put(userName, user);
+        System.out.println(String.format("Successfully enrolled user %s and imported it into the wallet", userName));
     }
 
     private static HFCAClient getHfcaClient() throws MalformedURLException, CryptoException, InvalidArgumentException, ClassNotFoundException, IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
