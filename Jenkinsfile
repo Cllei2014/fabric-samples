@@ -21,17 +21,17 @@ pipeline {
 
                 echo "Clean fabcar"
                 sh '''
-                ./scripts/ci_scripts/test_fabcar.sh stopFabric.sh
+                ./scripts/ci_scripts/test_fabcar.sh ./stopFabric.sh
                 '''
 
                 echo "Start fabcar"
                 sh '''
-                ./scripts/ci_scripts/test_fabcar.sh startFabric.sh
+                ./scripts/ci_scripts/test_fabcar.sh ./startFabric.sh
                 '''
 
                 echo "Clean fabcar"
                 sh '''
-                ./scripts/ci_scripts/test_fabcar.sh stopFabric.sh
+                ./scripts/ci_scripts/test_fabcar.sh ./stopFabric.sh
                 '''
             }
         }
