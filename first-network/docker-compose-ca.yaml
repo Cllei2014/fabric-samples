@@ -10,7 +10,7 @@ networks:
 
 services:
   ca_org1:
-    image: hyperledger/fabric-ca:$IMAGE_TAG
+    image: $IMAGE_CA
     environment:
       - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
       - FABRIC_CA_SERVER_CA_NAME=ca-org1
@@ -25,7 +25,7 @@ services:
       - byfn
 
   ca_org2:
-    image: hyperledger/fabric-ca:$IMAGE_TAG
+    image: $IMAGE_CA
     environment:
       - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
       - FABRIC_CA_SERVER_CA_NAME=ca-org2
@@ -38,8 +38,9 @@ services:
     container_name: ca_peerOrg2
     networks:
       - byfn
+
   ca_orderer:
-    image: hyperledger/fabric-ca:$IMAGE_TAG
+    image: $IMAGE_CA
     environment:
       - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
       - FABRIC_CA_SERVER_CA_NAME=ca-orderer
