@@ -155,7 +155,7 @@ function networkUp() {
     COMPOSE_FILES="-f ${COMPOSE_FILE}"
   if [ "${CERTIFICATE_AUTHORITIES}" == "true" ]; then
     if [ -d "crypto-config" ]; then
-     sudo rm -Rf crypto-config
+     docker run --rm -v $PWD:/first-network busybox rm -rf /first-network/crypto-config
      mkdir crypto-config
     fi
 
