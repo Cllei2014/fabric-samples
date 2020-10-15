@@ -10,6 +10,7 @@ docker run --rm \
     -e "IMAGE_ORDERER" \
     -e "IMAGE_CA" \
     -e "IMAGE_TOOLS" \
+    -e "IMAGE_CCENV" \
     -e "BYFN_CA" \
     --network host \
     ${IMAGE_TOOLS:-hyperledger/fabric-tools-gm} \
