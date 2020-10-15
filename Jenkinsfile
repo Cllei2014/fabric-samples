@@ -18,6 +18,12 @@ pipeline {
 
             steps {
                 sh 'aws ecr get-login-password | docker login --username AWS --password-stdin ${DOCKER_REGISTRY}'
+                sh '''
+                docker pull $IMAGE_PEER
+                docker pull $IMAGE_ORDERER
+                docker pull $IMAGE_CA
+                docker pull $IMAGE_TOOLS
+                '''
 
                 echo "Clean fabcar"
                 sh '''
