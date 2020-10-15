@@ -156,21 +156,17 @@ function networkUp() {
   if [ "${CERTIFICATE_AUTHORITIES}" == "true" ]; then
     if [ -d "crypto-config" ]; then
      sudo rm -Rf crypto-config
+     mkdir crypto-config
     fi
 
-    if [ -d "fabric-ca-config" ]; then
-     sudo rm -Rf fabric-ca-config
-    fi
-
-    sudo cp -Rp fabric-ca fabric-ca-config
-
+    cp -rp fabric-ca crypto-config/
 
     IMAGE_TAG=$IMAGETAG docker-compose -f ${COMPOSE_FILE_CA} up -d 2>&1
-    . fabric-ca-config/registerEnroll.sh
+    . crypto-config/fabric-ca/registerEnroll.sh
 
     while :
       do
-        if [ ! -f "fabric-ca-config/org1/IssuerPublicKey" ]; then
+        if [ ! -f "crypto-config/fabric-ca/org1/IssuerPublicKey" ]; then
           sleep 1
           echo "wait for ca server startd..."
         else
@@ -321,7 +317,7 @@ function networkDown() {
     #Cleanup images
     removeUnwantedImages
     # remove orderer block and other channel configuration transactions and certs
-    rm -rf channel-artifacts/*.block channel-artifacts/*.tx crypto-config ./org3-artifacts/crypto-config/ channel-artifacts/org3.json
+    rm -rf channel-artifacts/*.block channel-artifacts/*.tx ./org3-artifacts/crypto-config/ channel-artifacts/org3.json
     # remove the docker-compose yaml file that was customized to the example
     rm -f docker-compose-e2e.yaml
   fi
