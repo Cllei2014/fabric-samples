@@ -152,25 +152,21 @@ function checkPrereqs() {
 # Generate the needed certificates, the genesis block and start the network.
 function networkUp() {
   checkPrereqs
-    COMPOSE_FILES="-f ${COMPOSE_FILE}"
+  COMPOSE_FILES="-f ${COMPOSE_FILE}"
+  if [ -d "crypto-config" ]; then
+    docker run --rm -v $PWD:/first-network busybox rm -rf /first-network/crypto-config
+  fi
+  mkdir crypto-config
+
   if [ "${CERTIFICATE_AUTHORITIES}" == "true" ]; then
-    if [ -d "crypto-config" ]; then
-     sudo rm -Rf crypto-config
-    fi
-
-    if [ -d "fabric-ca-config" ]; then
-     sudo rm -Rf fabric-ca-config
-    fi
-
-    sudo cp -Rp fabric-ca fabric-ca-config
-
+    cp -rp fabric-ca crypto-config/
 
     IMAGE_TAG=$IMAGETAG docker-compose -f ${COMPOSE_FILE_CA} up -d 2>&1
-    . fabric-ca-config/registerEnroll.sh
+    . crypto-config/fabric-ca/registerEnroll.sh
 
     while :
       do
-        if [ ! -f "fabric-ca-config/org1/IssuerPublicKey" ]; then
+        if [ ! -f "crypto-config/fabric-ca/org1/IssuerPublicKey" ]; then
           sleep 1
           echo "wait for ca server startd..."
         else
@@ -187,14 +183,15 @@ function networkUp() {
     infoln "Create Orderer Org Identities"
     createOrderer
 
+    echo "Generate CCP files for Org1 and Org2"
+    ./ccp-generate.sh
+
     generateChannelArtifacts
   else
     #generate artifacts if they don't exist
-    if [ ! -d "crypto-config" ]; then
-      generateCerts
-      replacePrivateKey
-      generateChannelArtifacts
-    fi
+    generateCerts
+    replacePrivateKey
+    generateChannelArtifacts
   fi
 
   if [ "${CONSENSUS_TYPE}" == "kafka" ]; then
@@ -321,7 +318,7 @@ function networkDown() {
     #Cleanup images
     removeUnwantedImages
     # remove orderer block and other channel configuration transactions and certs
-    rm -rf channel-artifacts/*.block channel-artifacts/*.tx crypto-config ./org3-artifacts/crypto-config/ channel-artifacts/org3.json
+    rm -rf channel-artifacts/*.block channel-artifacts/*.tx ./org3-artifacts/crypto-config/ channel-artifacts/org3.json
     # remove the docker-compose yaml file that was customized to the example
     rm -f docker-compose-e2e.yaml
   fi
