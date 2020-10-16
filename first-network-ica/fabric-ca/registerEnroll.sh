@@ -191,13 +191,13 @@ function createOrg2() {
   cp ${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/signcerts/* ${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/server.crt
   cp ${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/keystore/* ${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/server.key
 
-  mkdir ${PWD}/crypto-config/peerOrganizations/org1.example.com/msp/tlscacerts
+  mkdir ${PWD}/crypto-config/peerOrganizations/org2.example.com/msp/tlscacerts
   cp ${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/tlsintermediatecerts/* ${PWD}/crypto-config/peerOrganizations/org2.example.com/msp/tlscacerts/ca.crt
 
-  mkdir ${PWD}/crypto-config/peerOrganizations/org1.example.com/tlsca
+  mkdir ${PWD}/crypto-config/peerOrganizations/org2.example.com/tlsca
   cp ${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/tlsintermediatecerts/* ${PWD}/crypto-config/peerOrganizations/org2.example.com/tlsca/tlsca.org2.example.com-cert.pem
 
-  mkdir ${PWD}/crypto-config/peerOrganizations/org1.example.com/ca
+  mkdir ${PWD}/crypto-config/peerOrganizations/org2.example.com/ca
   cp ${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/msp/intermediatecerts/* ${PWD}/crypto-config/peerOrganizations/org2.example.com/ca/ca.org2.example.com-cert.pem
 
 
