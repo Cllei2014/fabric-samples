@@ -9,7 +9,9 @@ package org.hyperledger.fabric.gateway;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.PrivateKey;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -21,9 +23,9 @@ import org.bouncycastle.openssl.jcajce.JcaPEMKeyConverter;
 import org.hyperledger.fabric.gateway.impl.FileSystemWallet;
 import org.hyperledger.fabric.gateway.impl.InMemoryWallet;
 import org.hyperledger.fabric.gateway.impl.WalletIdentity;
+import org.hyperledger.fabric.sdk.security.CryptoSM;
 
 /**
- *
  * Wallet defines the interface for storing and managing users' identities in a Fabric network.
  *
  * @see <a href="https://hyperledger-fabric.readthedocs.io/en/release-1.4/developapps/application.html#wallet">Developing Fabric Applications - Wallet</a>
@@ -35,6 +37,7 @@ public interface Wallet {
      * and an empty wallet is returned.
      * If a wallet already exists at the directory specified by basePath then
      * a wallet is returned that contains the identities that were stored on the filesystem.
+     *
      * @param basePath A directory path.
      * @return A wallet backed by the file store.
      * @throws IOException if an I/O error occurs accessing wallet state.
@@ -58,7 +61,6 @@ public interface Wallet {
      * An instance of identity can be created using the static method
      * {@link #createIdentity(String, String, PrivateKey) createIdentity} and subsequently
      * stored and retrieved in a wallet.
-     *
      */
     interface Identity {
         /**
@@ -84,26 +86,41 @@ public interface Wallet {
 
         /**
          * Creates an identity suitable for storing in a Wallet.
-         * @param mspId The MSPID associated with the identity
+         *
+         * @param mspId       The MSPID associated with the identity
          * @param certificate The public certificate PEM
-         * @param privateKey The private key
+         * @param privateKey  The private key
          * @return the identity
          */
         static Identity createIdentity(String mspId, String certificate, PrivateKey privateKey) {
             return new WalletIdentity(mspId, certificate, privateKey);
         }
 
+        static Identity createIdentity(String mspId, Reader certificate, Path filePath) throws IOException {
+            try (BufferedReader certReader = new BufferedReader(certificate)) {
+                CryptoSM cryptoSuite = new CryptoSM();
+                byte[] bytes = Files.readAllBytes(filePath);
+                PrivateKey pk = cryptoSuite.bytesToPrivateKey(bytes);
+                String certStr = certReader.lines().collect(Collectors.joining("\n", "", "\n"));
+                return new WalletIdentity(mspId, certStr, pk);
+            } catch (Exception e) {
+                throw new IOException(e);
+            }
+        }
+
         /**
          * Creates an identity suitable for storing in a Wallet.  The certificate and private key PEMs
          * are supplied using the {@link Reader} interface for ease of reading from a file system
          * or other storage mechanism.
-         * @param mspId The MSPID associated with the identity
+         *
+         * @param mspId       The MSPID associated with the identity
          * @param certificate The public certificate PEM
-         * @param privateKey The private key PEM
+         * @param privateKey  The private key PEM
          * @return the identity
          * @throws IOException if an I/O error occurs accessing credentials.
          */
         static Identity createIdentity(String mspId, Reader certificate, Reader privateKey) throws IOException {
+
             try (PEMParser parser = new PEMParser(privateKey);
                  BufferedReader certReader = new BufferedReader(certificate)) {
                 Object key = parser.readObject();
@@ -124,7 +141,7 @@ public interface Wallet {
     /**
      * Inserts an identity into the wallet.
      *
-     * @param label The label associated with the identity in the wallet.
+     * @param label    The label associated with the identity in the wallet.
      * @param identity The identity to put in the wallet.
      * @throws IOException if an I/O error occurs accessing wallet state.
      */

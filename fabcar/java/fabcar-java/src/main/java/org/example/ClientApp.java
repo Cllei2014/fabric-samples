@@ -6,52 +6,64 @@ package org.example;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.Security;
 
 import org.hyperledger.fabric.gateway.Contract;
 import org.hyperledger.fabric.gateway.Gateway;
 import org.hyperledger.fabric.gateway.Network;
 import org.hyperledger.fabric.gateway.Wallet;
+import org.hyperledger.fabric.sdk.helper.Config;
 
 public class ClientApp {
-	static String userName = "user6";
+    static String userName = RegisterUser.userName;
 
-	static {
-		System.setProperty("org.hyperledger.fabric.sdk.service_discovery.as_localhost", "true");
-	}
+    static {
+        System.setProperty("org.hyperledger.fabric.sdk.service_discovery.as_localhost", "true");
+        Path currentPath = Paths.get("fabcar-java", "config.properties");
+        System.setProperty(Config.ORG_HYPERLEDGER_FABRIC_SDK_CONFIGURATION, currentPath.toAbsolutePath().toString());
 
-	public static void main(String[] args) throws Exception {
-		// Load a file system based wallet for managing identities.
-		Path walletPath = Paths.get("wallet");
-		Wallet wallet = Wallet.createFileSystemWallet(walletPath);
+        // 设置hash就能切换整个密码库了
+        System.setProperty(Config.HASH_ALGORITHM, "SM3");
 
-		// load a CCP
-		Path networkConfigPath = Paths.get("..", "..", "first-network", "connection-org1.yaml");
+        //java发送https请求出现Unknown named curve: 1.2.156.10197.1.301
+        Security.removeProvider("SunEC");
+    }
 
-		Gateway.Builder builder = Gateway.createBuilder();
-		builder.identity(wallet, userName).networkConfig(networkConfigPath).discovery(true);
+    public static void main(String[] args) throws Exception {
+        // Load a file system based wallet for managing identities.
+        Path walletPath = Paths.get("wallet");
+        Wallet wallet = Wallet.createFileSystemWallet(walletPath);
 
-		// create a gateway connection
-		try (Gateway gateway = builder.connect()) {
+        // load a CCP
+        Path networkConfigPath = Paths.get("..", "..", "first-network", "connection-org1.yaml");
 
-			// get the network and contract
-			Network network = gateway.getNetwork("mychannel");
-			Contract contract = network.getContract("fabcar");
+        Gateway.Builder builder = Gateway.createBuilder();
+        builder.identity(wallet, userName).networkConfig(networkConfigPath).discovery(true);
 
-			byte[] result;
+        // create a gateway connection
+        try (Gateway gateway = builder.connect()) {
 
-			result = contract.evaluateTransaction("queryAllCars");
-			System.out.println(new String(result));
+            // get the network and contract
+            Network network = gateway.getNetwork("mychannel");
+            Contract contract = network.getContract("fabcar");
 
-			contract.submitTransaction("createCar", "CAR10", "VW", "Polo", "Grey", "Mary");
+            byte[] result;
 
-			result = contract.evaluateTransaction("queryCar", "CAR10");
-			System.out.println(new String(result));
+            result = contract.evaluateTransaction("queryAllCars");
+            System.out.println(new String(result));
 
-			contract.submitTransaction("changeCarOwner", "CAR10", "Archie");
+            contract.submitTransaction("createCar", "CAR10", "VW", "Polo", "Grey", "Mary");
 
-			result = contract.evaluateTransaction("queryCar", "CAR10");
-			System.out.println(new String(result));
-		}
-	}
+            result = contract.evaluateTransaction("queryCar", "CAR10");
+            System.out.println(new String(result));
+
+            contract.submitTransaction("changeCarOwner", "CAR10", "Archie");
+
+            result = contract.evaluateTransaction("queryCar", "CAR10");
+            System.out.println(new String(result));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
 }

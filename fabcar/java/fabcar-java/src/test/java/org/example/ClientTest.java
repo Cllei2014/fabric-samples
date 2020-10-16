@@ -16,12 +16,16 @@ import java.security.PublicKey;
 import java.util.Base64;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 public class ClientTest {
+    CryptoSM cryptoSuite = new CryptoSM();
+
+    public ClientTest() throws IllegalAccessException, InstantiationException, ClassNotFoundException {
+    }
 
     @Test
     public void test_sm2() throws Exception {
-        CryptoSM cryptoSuite = new CryptoSM();
         String signString = "yin";
 //        byte[] signStringByte = cryptoSuite.hash(signString.getBytes(UTF_8));
         byte[] signStringByte = signString.getBytes(UTF_8);
@@ -44,9 +48,18 @@ public class ClientTest {
         boolean verifyGo = cryptoSuite.verify(publicKey, "1234567812345678".getBytes(), signStringByte, decoder.decode(go));
         Assert.assertTrue("java verified", verifyJava);
         Assert.assertTrue("go verified", verifyGo);
-
-
     }
 
+    @Test
+    public void should_read_private_key_from_file() throws Exception {
+        assertDoesNotThrow(() -> {
+            byte[] bytes = Files.readAllBytes(Paths.get(System.getProperty("user.dir") + "/src/test/resources/user_1015_1-priv"));
+            cryptoSuite.bytesToPrivateKey(bytes);
+        });
 
+        assertDoesNotThrow(() -> {
+            byte[] bytes = Files.readAllBytes(Paths.get(System.getProperty("user.dir") + "/src/test/resources/admin-priv"));
+            cryptoSuite.bytesToPrivateKey(bytes);
+        });
+    }
 }
