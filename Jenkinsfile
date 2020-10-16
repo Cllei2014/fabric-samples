@@ -38,6 +38,11 @@ pipeline {
                 ./scripts/ci_scripts/test_fabcar.sh ./startFabric.sh
                 '''
 
+                echo "Test Chaincode"
+                sh '''
+                docker exec cli peer chaincode query -C mychannel -n fabcar -c '{"Args":["queryAllCars"]}'
+                '''
+
                 echo "Clean fabcar"
                 sh '''
                 ./scripts/ci_scripts/test_fabcar.sh ./stopFabric.sh
