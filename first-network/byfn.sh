@@ -183,6 +183,9 @@ function networkUp() {
     infoln "Create Orderer Org Identities"
     createOrderer
 
+    echo "Generate CCP files for Org1 and Org2"
+    ./ccp-generate.sh
+
     generateChannelArtifacts
   else
     #generate artifacts if they don't exist
