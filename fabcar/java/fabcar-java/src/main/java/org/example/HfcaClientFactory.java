@@ -12,6 +12,8 @@ public class HfcaClientFactory {
         String caUrl = "http://127.0.0.1:7054";
         Properties props = new Properties();
         props.put("providerName", "GM");
+        props.put("pemFile", "../../first-network/crypto-config/peerOrganizations/org1.example.com/tlsca/tlsca.org1.example.com-cert.pem ");
+        props.put("allowAllHostNames", "true");
 
         HFCAClient caClient = HFCAClient.createNewInstance(caUrl, props);
         CryptoSuite cryptoSuite = new CryptoSM();
