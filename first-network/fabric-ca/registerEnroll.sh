@@ -80,10 +80,13 @@ function createOrg1() {
   cp ${PWD}/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/keystore/* ${PWD}/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/server.key
 
   mkdir -p ${PWD}/crypto-config/peerOrganizations/org1.example.com/msp/tlscacerts
-  cp ${PWD}/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/tlscacerts/* ${PWD}/crypto-config/peerOrganizations/org1.example.com/msp/tlscacerts/ca.crt
+  cp ${PWD}/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/tlscacerts/* ${PWD}/crypto-config/peerOrganizations/org1.example.com/msp/tlscacerts/tlsca.org1.example.com-cert.pem
 
   mkdir -p ${PWD}/crypto-config/peerOrganizations/org1.example.com/tlsca
   cp ${PWD}/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/tlscacerts/* ${PWD}/crypto-config/peerOrganizations/org1.example.com/tlsca/tlsca.org1.example.com-cert.pem
+
+  mkdir -p ${PWD}/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/msp/tlscacerts
+  cp ${PWD}/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/tlscacerts/* ${PWD}/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/msp/tlscacerts/tlsca.org1.example.com-cert.pem
 
   mkdir -p ${PWD}/crypto-config/peerOrganizations/org1.example.com/ca
   cp ${PWD}/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/msp/cacerts/* ${PWD}/crypto-config/peerOrganizations/org1.example.com/ca/ca.org1.example.com-cert.pem
@@ -96,6 +99,9 @@ function createOrg1() {
   cp ${PWD}/crypto-config/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/tls/tlscacerts/* ${PWD}/crypto-config/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/tls/ca.crt
   cp ${PWD}/crypto-config/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/tls/signcerts/* ${PWD}/crypto-config/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/tls/server.crt
   cp ${PWD}/crypto-config/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/tls/keystore/* ${PWD}/crypto-config/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/tls/server.key
+
+  mkdir -p ${PWD}/crypto-config/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/msp/tlscacerts
+  cp ${PWD}/crypto-config/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/tls/tlscacerts/* ${PWD}/crypto-config/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/msp/tlscacerts/tlsca.org1.example.com-cert.pem
 
   infoln "Generate the user msp"
   mkdir -p crypto-config/peerOrganizations/org1.example.com/users
@@ -189,6 +195,15 @@ function createOrg2() {
   cp ${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/signcerts/* ${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/server.crt
   cp ${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/keystore/* ${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/server.key
 
+  mkdir -p ${PWD}/crypto-config/peerOrganizations/org2.example.com/tlsca
+  cp ${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/tlscacerts/* ${PWD}/crypto-config/peerOrganizations/org2.example.com/tlsca/tlsca.org2.example.com-cert.pem
+
+  mkdir -p ${PWD}/crypto-config/peerOrganizations/org2.example.com/msp/tlscacerts
+  cp ${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/tlscacerts/* ${PWD}/crypto-config/peerOrganizations/org2.example.com/msp/tlscacerts/tlsca.org2.example.com-cert.pem
+
+  mkdir -p ${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/msp/tlscacerts
+  cp ${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/tlscacerts/* ${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/msp/tlscacerts/tlsca.org2.example.com-cert.pem
+
   infoln "Generate the peer1-tls certificates"
   set -x
   fabric-ca-client enroll -u http://peer1:peer1pw@localhost:8054 --caname ca-org2 -M ${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/tls --enrollment.profile tls --csr.hosts peer1.org2.example.com --csr.hosts localhost ##--tls.certfiles ${PWD}/crypto-config/fabric-ca/org2/tls-cert.pem
@@ -197,6 +212,9 @@ function createOrg2() {
   cp ${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/tls/tlscacerts/* ${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/tls/ca.crt
   cp ${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/tls/signcerts/* ${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/tls/server.crt
   cp ${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/tls/keystore/* ${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/tls/server.key
+
+  mkdir -p ${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/msp/tlscacerts
+  cp ${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/tls/tlscacerts/* ${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/msp/tlscacerts/tlsca.org2.example.com-cert.pem
 
   mkdir -p crypto-config/peerOrganizations/org2.example.com/users
   mkdir -p crypto-config/peerOrganizations/org2.example.com/users/User1@org2.example.com
@@ -256,8 +274,6 @@ function createOrderer() {
   { set +x; } 2>/dev/null
 
   mkdir -p crypto-config/ordererOrganizations/example.com/orderers
-  mkdir -p crypto-config/ordererOrganizations/example.com/orderers/example.com
-
   mkdir -p crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com
 
   infoln "Generate the orderer msp"
@@ -281,6 +297,10 @@ function createOrderer() {
 
   mkdir -p ${PWD}/crypto-config/ordererOrganizations/example.com/msp/tlscacerts
   cp ${PWD}/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tls/tlscacerts/* ${PWD}/crypto-config/ordererOrganizations/example.com/msp/tlscacerts/tlsca.example.com-cert.pem
+
+  mkdir -p ${PWD}/crypto-config/ordererOrganizations/example.com/tlsca
+  cp ${PWD}/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tls/tlscacerts/* ${PWD}/crypto-config/ordererOrganizations/example.com/tlsca/tlsca.example.com-cert.pem
+
 
   mkdir -p crypto-config/ordererOrganizations/example.com/users
   mkdir -p crypto-config/ordererOrganizations/example.com/users/Admin@example.com
