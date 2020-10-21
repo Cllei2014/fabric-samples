@@ -98,7 +98,7 @@ public final class FileSystemWallet implements Wallet {
             String signingId = enrollment.getString("signingIdentity");
             Path pemFile = basePath.resolve(Paths.get(name, signingId + "-priv"));
             String certificate = enrollment.getJsonObject("identity").getString("certificate");
-            return Identity.createIdentity(mspId, new StringReader(certificate), Files.newBufferedReader(pemFile));
+            return Identity.createIdentity(mspId, new StringReader(certificate), pemFile);
         }
     }
 
