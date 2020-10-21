@@ -34,8 +34,8 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/hyperledger/fabric/core/chaincode/shim"
-	sc "github.com/hyperledger/fabric/protos/peer"
+	"github.com/tw-bc-group/fabric-gm/core/chaincode/shim"
+	sc "github.com/tw-bc-group/fabric-gm/protos/peer"
 )
 
 // Define the Smart Contract structure
