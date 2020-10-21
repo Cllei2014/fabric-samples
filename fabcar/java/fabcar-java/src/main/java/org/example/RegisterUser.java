@@ -24,7 +24,7 @@ import org.hyperledger.fabric_ca.sdk.RegistrationRequest;
 
 public class RegisterUser {
 
-    static String userName = "user_1015_2";
+    static String userName = "user_1015_3";
 
     static {
         System.setProperty("org.hyperledger.fabric.sdk.service_discovery.as_localhost", "true");

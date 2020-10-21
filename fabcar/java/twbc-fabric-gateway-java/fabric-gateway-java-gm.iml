@@ -43,7 +43,6 @@
     <orderEntry type="library" name="Maven: io.netty:netty-transport:4.1.38.Final" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-resolver:4.1.38.Final" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-codec:4.1.38.Final" level="project" />
-    <orderEntry type="library" name="Maven: io.netty:netty-handler:4.1.38.Final" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-codec-http:4.1.38.Final" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-handler-proxy:4.1.38.Final" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-codec-socks:4.1.38.Final" level="project" />
@@ -58,7 +57,24 @@
     <orderEntry type="library" name="Maven: com.google.api.grpc:proto-google-common-protos:1.12.0" level="project" />
     <orderEntry type="library" name="Maven: io.grpc:grpc-protobuf-lite:1.23.0" level="project" />
     <orderEntry type="library" name="Maven: io.grpc:grpc-stub:1.23.0" level="project" />
-    <orderEntry type="library" name="Maven: io.netty:netty-tcnative-boringssl-static:2.0.26.Final" level="project" />
+    <orderEntry type="module-library">
+      <library name="Maven: io.netty:netty-handler:4.1.26.Final-SNAPSHOT">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../twbc-fabric-sdk-java-gm/lib/netty-handler-4.1.26.Final-SNAPSHOT.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Maven: io.netty:netty-tcnative-openssl-static:2.0.9.Final-SNAPSHOT">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../twbc-fabric-sdk-java-gm/lib/netty-tcnative-openssl-static-2.0.9.Final-SNAPSHOT-osx-x86_64.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
     <orderEntry type="library" name="Maven: com.google.protobuf:protobuf-java-util:3.10.0" level="project" />
     <orderEntry type="library" name="Maven: com.google.errorprone:error_prone_annotations:2.3.2" level="project" />
     <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.8.5" level="project" />
