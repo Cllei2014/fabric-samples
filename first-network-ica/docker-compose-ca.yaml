@@ -10,7 +10,7 @@ networks:
 
 services:
   ca_org1:
-    image: hyperledger/fabric-ca:$IMAGE_TAG
+    image: $IMAGE_CA
     environment:
       - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
       - FABRIC_CA_SERVER_CA_NAME=ca-org1
@@ -19,13 +19,13 @@ services:
       - "7054:7054"
     command: sh -c 'fabric-ca-server start -b admin:adminpw -d'
     volumes:
-      - ./fabric-ca-config/org1:/etc/hyperledger/fabric-ca-server
+      - ./crypto-config/fabric-ca/org1:/etc/hyperledger/fabric-ca-server
     container_name: ca_peerOrg1
     networks:
       - byfn
 
   ca_org2:
-    image: hyperledger/fabric-ca:$IMAGE_TAG
+    image: $IMAGE_CA
     environment:
       - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
       - FABRIC_CA_SERVER_CA_NAME=ca-org2
@@ -34,12 +34,12 @@ services:
       - "8054:8054"
     command: sh -c 'fabric-ca-server start -b admin:adminpw -d'
     volumes:
-      - ./fabric-ca-config/org2:/etc/hyperledger/fabric-ca-server
+      - ./crypto-config/fabric-ca/org2:/etc/hyperledger/fabric-ca-server
     container_name: ca_peerOrg2
     networks:
       - byfn
   ca_orderer:
-    image: hyperledger/fabric-ca:$IMAGE_TAG
+    image: $IMAGE_CA
     environment:
       - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
       - FABRIC_CA_SERVER_CA_NAME=ca-orderer
@@ -48,7 +48,7 @@ services:
       - "9054:9054"
     command: sh -c 'fabric-ca-server start -b admin:adminpw -d'
     volumes:
-      - ./fabric-ca-config/ordererOrg:/etc/hyperledger/fabric-ca-server
+      - ./crypto-config/fabric-ca/ordererOrg:/etc/hyperledger/fabric-ca-server
     container_name: ca_orderer
     networks:
       - byfn

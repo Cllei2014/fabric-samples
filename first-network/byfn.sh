@@ -152,13 +152,13 @@ function checkPrereqs() {
 # Generate the needed certificates, the genesis block and start the network.
 function networkUp() {
   checkPrereqs
-    COMPOSE_FILES="-f ${COMPOSE_FILE}"
-  if [ "${CERTIFICATE_AUTHORITIES}" == "true" ]; then
-    if [ -d "crypto-config" ]; then
-     docker run --rm -v $PWD:/first-network busybox rm -rf /first-network/crypto-config
-     mkdir crypto-config
-    fi
+  COMPOSE_FILES="-f ${COMPOSE_FILE}"
+  if [ -d "crypto-config" ]; then
+    docker run --rm -v $PWD:/first-network busybox rm -rf /first-network/crypto-config
+  fi
+  mkdir crypto-config
 
+  if [ "${CERTIFICATE_AUTHORITIES}" == "true" ]; then
     cp -rp fabric-ca crypto-config/
 
     IMAGE_TAG=$IMAGETAG docker-compose -f ${COMPOSE_FILE_CA} up -d 2>&1
@@ -189,11 +189,9 @@ function networkUp() {
     generateChannelArtifacts
   else
     #generate artifacts if they don't exist
-    if [ ! -d "crypto-config" ]; then
-      generateCerts
-      replacePrivateKey
-      generateChannelArtifacts
-    fi
+    generateCerts
+    replacePrivateKey
+    generateChannelArtifacts
   fi
 
   if [ "${CONSENSUS_TYPE}" == "kafka" ]; then

@@ -122,7 +122,7 @@ function checkPrereqs() {
   # Note, we check configtxlator externally because it does not require a config file, and peer in the
   # docker image because of FAB-8551 that makes configtxlator return 'development version' in docker
   LOCAL_VERSION=$(configtxlator version | sed -ne 's/ Version: //p')
-  DOCKER_IMAGE_VERSION=$(docker run --rm hyperledger/fabric-tools:$IMAGETAG peer version | sed -ne 's/ Version: //p' | head -1)
+  DOCKER_IMAGE_VERSION=$(docker run --rm hyperledger/$IMAGE_TOOLS peer version | sed -ne 's/ Version: //p' | head -1)
 
   echo "LOCAL_VERSION=$LOCAL_VERSION"
   echo "DOCKER_IMAGE_VERSION=$DOCKER_IMAGE_VERSION"
@@ -152,25 +152,21 @@ function checkPrereqs() {
 # Generate the needed certificates, the genesis block and start the network.
 function networkUp() {
   checkPrereqs
-    COMPOSE_FILES="-f ${COMPOSE_FILE}"
+  COMPOSE_FILES="-f ${COMPOSE_FILE}"
+  if [ -d "crypto-config" ]; then
+    docker run --rm -v $PWD:/first-network busybox rm -rf /first-network/crypto-config
+  fi
+  mkdir crypto-config
+
   if [ "${CERTIFICATE_AUTHORITIES}" == "true" ]; then
-    if [ -d "crypto-config" ]; then
-     sudo rm -Rf crypto-config
-    fi
-
-    if [ -d "fabric-ca-config" ]; then
-     sudo rm -Rf fabric-ca-config
-    fi
-
-    sudo cp -Rp fabric-ca fabric-ca-config
-
+    cp -rp fabric-ca crypto-config/
 
     IMAGE_TAG=$IMAGETAG docker-compose -f ${COMPOSE_FILE_CA} up -d 2>&1
-    . fabric-ca-config/registerEnroll.sh
+    . crypto-config/fabric-ca/registerEnroll.sh
 
     while :
       do
-        if [ ! -f "fabric-ca-config/org1/IssuerPublicKey" ]; then
+        if [ ! -f "crypto-config/fabric-ca/org1/IssuerPublicKey" ]; then
           sleep 1
           echo "wait for ca server startd..."
         else
@@ -187,14 +183,15 @@ function networkUp() {
     infoln "Create Orderer Org Identities"
     createOrderer
 
+    echo "Generate CCP files for Org1 and Org2"
+    ./ccp-generate.sh
+
     generateChannelArtifacts
   else
     #generate artifacts if they don't exist
-    if [ ! -d "crypto-config" ]; then
-      generateCerts
-      replacePrivateKey
-      generateChannelArtifacts
-    fi
+    generateCerts
+    replacePrivateKey
+    generateChannelArtifacts
   fi
 
   if [ "${CONSENSUS_TYPE}" == "kafka" ]; then
@@ -315,13 +312,13 @@ function networkDown() {
   if [ "$MODE" != "restart" ]; then
     # Bring down the network, deleting the volumes
     #Delete any ledger backups
-    docker run -v $PWD:/tmp/first-network --rm hyperledger/fabric-tools:$IMAGETAG rm -Rf /tmp/first-network/ledgers-backup
+    docker run -v $PWD:/tmp/first-network --rm hyperledger/fabric-tools-gm:$IMAGETAG rm -Rf /tmp/first-network/ledgers-backup
     #Cleanup the chaincode containers
     clearContainers
     #Cleanup images
     removeUnwantedImages
     # remove orderer block and other channel configuration transactions and certs
-    rm -rf channel-artifacts/*.block channel-artifacts/*.tx crypto-config ./org3-artifacts/crypto-config/ channel-artifacts/org3.json
+    rm -rf channel-artifacts/*.block channel-artifacts/*.tx ./org3-artifacts/crypto-config/ channel-artifacts/org3.json
     # remove the docker-compose yaml file that was customized to the example
     rm -f docker-compose-e2e.yaml
   fi
