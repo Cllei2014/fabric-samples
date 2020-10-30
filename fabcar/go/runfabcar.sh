@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 
 ENV_DAL=`echo $DISCOVERY_AS_LOCALHOST`
 

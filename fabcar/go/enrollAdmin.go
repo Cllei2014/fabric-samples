@@ -12,8 +12,8 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
-	"github.com/hyperledger/fabric-sdk-go/pkg/core/config"
-	"github.com/hyperledger/fabric-sdk-go/pkg/gateway"
+	"github.com/hyperledger/fabric-sdk-go-gm/pkg/core/config"
+	"github.com/hyperledger/fabric-sdk-go-gm/pkg/gateway"
 )
 
 func main() {
