@@ -9,11 +9,11 @@ package main
 import (
 	"errors"
 	"fmt"
+	"github.com/tw-bc-group/fabric-sdk-go-gm/pkg/core/config"
+	"github.com/tw-bc-group/fabric-sdk-go-gm/pkg/gateway"
 	"io/ioutil"
 	"os"
 	"path/filepath"
-	"github.com/hyperledger/fabric-sdk-go/pkg/core/config"
-	"github.com/hyperledger/fabric-sdk-go/pkg/gateway"
 )
 
 func main() {
