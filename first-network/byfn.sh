@@ -32,6 +32,12 @@ export PATH=${PWD}/../bin:${PWD}:$PATH
 export FABRIC_CFG_PATH=${PWD}
 export VERBOSE=false
 
+ENV_FILE=".env"
+
+if [[ ! -n $IMAGE_TOOLS && -f $ENV_FILE ]];then
+  source $ENV_FILE
+fi
+
 # Print the usage message
 function printHelp() {
   echo "Usage: "
@@ -123,7 +129,7 @@ function checkPrereqs() {
   # Note, we check configtxlator externally because it does not require a config file, and peer in the
   # docker image because of FAB-8551 that makes configtxlator return 'development version' in docker
   LOCAL_VERSION=$(configtxlator version | sed -ne 's/ Version: //p')
-  DOCKER_IMAGE_VERSION=$(docker run --rm hyperledger/fabric-tools-gm:latest peer version | sed -ne 's/ Version: //p' | head -1)
+  DOCKER_IMAGE_VERSION=$(docker run --rm $IMAGE_TOOLS peer version | sed -ne 's/ Version: //p' | head -1)
 
   echo "LOCAL_VERSION=$LOCAL_VERSION"
   echo "DOCKER_IMAGE_VERSION=$DOCKER_IMAGE_VERSION"
@@ -317,7 +323,7 @@ function networkDown() {
   if [ "$MODE" != "restart" ]; then
     # Bring down the network, deleting the volumes
     #Delete any ledger backups
-    docker run -v $PWD:/tmp/first-network --rm hyperledger/fabric-tools-gm:latest rm -Rf /tmp/first-network/ledgers-backup
+    docker run -v $PWD:/tmp/first-network --rm $IMAGE_TOOLS rm -Rf /tmp/first-network/ledgers-backup
     #Cleanup the chaincode containers
     clearContainers
     #Cleanup images
