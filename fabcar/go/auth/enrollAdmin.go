@@ -1,4 +1,4 @@
-package auth
+package main
 
 import (
 	"fmt"
@@ -9,27 +9,15 @@ import (
 	"github.com/tw-bc-group/fabric-sdk-go-gm/pkg/core/cryptosuite"
 	"github.com/tw-bc-group/fabric-sdk-go-gm/pkg/fabsdk"
 	"github.com/tw-bc-group/fabric-sdk-go-gm/pkg/msp"
-	"github.com/tw-bc-group/fabric-sdk-go-gm/pkg/msp/test/mockmsp"
-	"net"
-	"os"
 	"path/filepath"
-	"strings"
 )
 
-var (
-	DefaultHome = os.ExpandEnv("$PWD/CONFIG")
-)
 var caServerURL string
-var caServer = &mockmsp.MockFabricCAServer{}
 
 const (
-	caServerURLListen = "http://localhost:7054"
-	configFile        = "fabric-ca-server-config.yaml"
+	//configFile = "/Users/yin/projects/fabric/fabric-samples/first-network/fabric-ca/org1/fabric-ca-server-config.yaml"
+	configFile = "/Users/yin/projects/fabric/fabric-samples/first-network/connection-org1.yaml"
 )
-
-type nwConfig struct {
-	CertificateAuthorities map[string]msp.CAConfig
-}
 
 type clientFixture struct {
 	cryptoSuiteConfig core.CryptoSuiteConfig
@@ -44,13 +32,6 @@ func main() {
 	//create the CA instance
 
 	//c, err := clientmsp.New(
-	//	*fabsdk.FabricSDK.Context(),
-	//	mspclient.WithOrg(OrgName),
-	//)
-	//if err != nil {
-	//	return clientmsp, errors.WithMessage(err, "failed to create MSP client")
-	//}
-
 	var c, err = clientmsp.New(sdk.Context())
 	if err != nil {
 		fmt.Println("failed to create msp client", err)
@@ -58,26 +39,16 @@ func main() {
 	}
 	fmt.Println("New client instance created", c)
 
-	err = c.Enroll("Admin@org1", clientmsp.WithSecret("Admin@org1"), clientmsp.WithProfile("tls"))
+	err = c.Enroll("admin", clientmsp.WithSecret("adminpw"))
 	if err != nil {
 		fmt.Println("failed to register identity", err)
 	}
 }
 
 func (f *clientFixture) setup() *fabsdk.FabricSDK {
-	var lis net.Listener
 	var err error
-	if !caServer.Running() {
-		lis, err = net.Listen("tcp", strings.TrimPrefix(caServerURLListen,
-			"http://"))
-		if err != nil {
-			panic(fmt.Sprintf("Error starting CA Server %s", err))
-		}
 
-		caServerURL = "http://" + lis.Addr().String()
-	}
-
-	configPath := filepath.Join(DefaultHome, configFile)
+	configPath := filepath.Join(configFile)
 	backend, err := config.FromFile(configPath)()
 	if err != nil {
 		fmt.Println(err)
@@ -91,6 +62,7 @@ func (f *clientFixture) setup() *fabsdk.FabricSDK {
 	if err != nil {
 		fmt.Println(err)
 	}
+	defer sdk.Close()
 
 	configBackend, err := sdk.Config()
 	if err != nil {
@@ -101,16 +73,6 @@ func (f *clientFixture) setup() *fabsdk.FabricSDK {
 	f.identityConfig, _ = msp.ConfigFromBackend(configBackend)
 	if err != nil {
 		fmt.Println(err)
-	}
-	ctxProvider := sdk.Context()
-	ctx, err := ctxProvider()
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	// Start Http Server if it's not running
-	if !caServer.Running() {
-		caServer.Start(lis, ctx.CryptoSuite())
 	}
 	return sdk
 }
