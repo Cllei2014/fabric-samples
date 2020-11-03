@@ -1,4 +1,5 @@
 #!/bin/bash
+docker build --build-arg IMAGE_CA=$IMAGE_CA --build-arg IMAGE_TOOLS=$IMAGE_TOOLS -t hyperledger/fabric-tools-ca-gm:latest .
 
 docker run --rm \
     -v "$PWD:$PWD" \
@@ -13,5 +14,5 @@ docker run --rm \
     -e "IMAGE_CCENV" \
     -e "BYFN_CA" \
     --network host \
-    ${IMAGE_TOOLS:-hyperledger/fabric-tools-gm} \
+    hyperledger/fabric-tools-ca-gm:latest \
     $1
