@@ -1,5 +1,9 @@
 #!/bin/bash
-docker build --build-arg IMAGE_CA=$IMAGE_CA --build-arg IMAGE_TOOLS=$IMAGE_TOOLS -t hyperledger/fabric-tools-ca-gm:latest .
+docker build --build-arg IMAGE_CA=$IMAGE_CA \
+             --build-arg IMAGE_TOOLS=$IMAGE_TOOLS \
+             -t hyperledger/fabric-tools-ca-gm:latest \
+             -f $PWD/scripts/ci_scripts/Dockerfile \
+             .
 
 docker run --rm \
     -v "$PWD:$PWD" \
