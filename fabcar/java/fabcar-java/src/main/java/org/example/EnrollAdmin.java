@@ -77,8 +77,8 @@ public class EnrollAdmin {
 
     public static void main(String[] args) throws Exception {
 
-//        Enrollment enrollment = notls();
-        Enrollment enrollment = tls();
+        Enrollment enrollment = notls();
+//        Enrollment enrollment = tls();
 
         // Create a wallet for managing identities
         Wallet wallet = Wallet.createFileSystemWallet(Paths.get("wallet"));

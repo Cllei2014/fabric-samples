@@ -4,15 +4,15 @@ SPDX-License-Identifier: Apache-2.0
 
 package org.example;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.security.Security;
-
 import org.hyperledger.fabric.gateway.Contract;
 import org.hyperledger.fabric.gateway.Gateway;
 import org.hyperledger.fabric.gateway.Network;
 import org.hyperledger.fabric.gateway.Wallet;
 import org.hyperledger.fabric.sdk.helper.Config;
+
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.security.Security;
 
 public class ClientApp {
     static String userName = RegisterUser.userName;
@@ -35,7 +35,7 @@ public class ClientApp {
         Wallet wallet = Wallet.createFileSystemWallet(walletPath);
 
         // load a CCP
-        Path networkConfigPath = Paths.get("..", "..", "first-network", "connection-org1.yaml");
+        Path networkConfigPath = Paths.get("..", "..", "first-network-ica", "connection-org1.yaml");
 
         Gateway.Builder builder = Gateway.createBuilder();
         builder.identity(wallet, userName).networkConfig(networkConfigPath).discovery(true);
@@ -61,8 +61,6 @@ public class ClientApp {
 
             result = contract.evaluateTransaction("queryCar", "CAR10");
             System.out.println(new String(result));
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
         }
     }
 
