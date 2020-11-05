@@ -5,3 +5,6 @@
 wallet
 !wallet/.gitkeep
 *.class
+*.iml
+*.ipr
+*.iws
