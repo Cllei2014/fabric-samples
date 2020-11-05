@@ -16,12 +16,22 @@
 
 package org.hyperledger.fabric.sdk.transaction;
 
-import java.util.Calendar;
-import java.util.Date;
-
+import com.google.common.base.Charsets;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.Timestamp;
+import org.hyperledger.fabric.protos.common.Common;
+import org.hyperledger.fabric.protos.msp.Identities;
+import org.hyperledger.fabric.protos.peer.FabricProposal;
+import org.hyperledger.fabric.sdk.security.CryptoSM;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.security.PublicKey;
+import java.util.Calendar;
+import java.util.Date;
 
 import static org.hyperledger.fabric.sdk.transaction.ProtoUtils.getCurrentFabricTimestamp;
 import static org.hyperledger.fabric.sdk.transaction.ProtoUtils.getDateFromTimestamp;
@@ -37,7 +47,7 @@ public class ProtoUtilsTest {
         //Test values over 2seconds
         for (long start = millis; start < millis + 2010; ++start) {
             Timestamp ts = Timestamp.newBuilder().setSeconds(start / 1000)
-                    .setNanos((int) ((start % 1000) * 1000000)).build();
+                .setNanos((int) ((start % 1000) * 1000000)).build();
 
             Date dateFromTimestamp = getDateFromTimestamp(ts);
             //    System.out.println(dateFromTimestamp);
@@ -70,6 +80,37 @@ public class ProtoUtilsTest {
         after.add(Calendar.MILLISECOND, skew);
         Assert.assertTrue(before.getTime().before(currentDateTimestamp));
         Assert.assertTrue(after.getTime().after(currentDateTimestamp));
+    }
+
+    @Test
+    public void verifyMarshalSignedProposalIsGood() throws Exception {
+        byte[] bytes = Files.readAllBytes(Paths.get(System.getProperty("user.dir") + "/diagnostic/protobuf_2020-10-27T09-35-11_921P57073_1_4.proto"));
+
+        FabricProposal.SignedProposal signedProposal = FabricProposal.SignedProposal.parseFrom(bytes);
+
+        ByteString proposalBytes = signedProposal.getProposalBytes();
+
+        String pubKey = "-----BEGIN PUBLIC KEY-----\n" +
+            "MFkwEwYHKoZIzj0CAQYIKoEcz1UBgi0DQgAEAcOGZXl1Rr+hLesCMFpuvt6eUWi8\n" +
+            "5XW4qSfDAZ+SVcR5TP7K1rn5e446HbUh7D+ADE5qSc9TnMLaiZf51vgxgQ==\n" +
+            "-----END PUBLIC KEY-----\n";
+        CryptoSM cryptoSuite = new CryptoSM();
+        PublicKey publicKey = cryptoSuite.bytesToPublicKey(pubKey.getBytes(Charsets.UTF_8));
+        boolean ok = new CryptoSM().verify(publicKey, "1234567812345678".getBytes(), proposalBytes.toByteArray(), signedProposal.getSignature().toByteArray());
+
+        Assert.assertTrue(ok);
+    }
+
+    private void parseSignedProposal(FabricProposal.SignedProposal signedProposal) throws InvalidProtocolBufferException {
+        ByteString proposalBytes = signedProposal.getProposalBytes();
+
+        FabricProposal.Proposal proposal = FabricProposal.Proposal.parseFrom(proposalBytes);
+        ByteString header = proposal.getHeader();
+        Common.SignatureHeader signatureHeader = Common.SignatureHeader.parseFrom(header);
+        ByteString creator = signatureHeader.getCreator();
+        Identities.SerializedIdentity identity = Identities.SerializedIdentity.parseFrom(creator);
+
+        // TODO: identity is null but should not be null!
     }
 
 }

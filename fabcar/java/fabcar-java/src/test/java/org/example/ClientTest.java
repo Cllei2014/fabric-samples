@@ -5,7 +5,6 @@ SPDX-License-Identifier: Apache-2.0
 package org.example;
 
 import org.hyperledger.fabric.sdk.security.CryptoSM;
-import org.hyperledger.fabric.sdk.security.CryptoSuite;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -51,13 +50,15 @@ public class ClientTest {
     }
 
     @Test
-    public void should_read_private_key_from_file() throws Exception {
-        assertDoesNotThrow(() -> {
+    public void should_read_private_key_from_file() {
+        assertDoesNotThrow(() ->
+        {
             byte[] bytes = Files.readAllBytes(Paths.get(System.getProperty("user.dir") + "/src/test/resources/user_1015_1-priv"));
             cryptoSuite.bytesToPrivateKey(bytes);
         });
 
-        assertDoesNotThrow(() -> {
+        assertDoesNotThrow(() ->
+        {
             byte[] bytes = Files.readAllBytes(Paths.get(System.getProperty("user.dir") + "/src/test/resources/admin-priv"));
             cryptoSuite.bytesToPrivateKey(bytes);
         });
