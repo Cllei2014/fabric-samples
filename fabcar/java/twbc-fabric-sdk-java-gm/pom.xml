@@ -67,6 +67,12 @@
             <groupId>io.grpc</groupId>
             <artifactId>grpc-netty</artifactId>
             <version>${grpc.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.netty</groupId>
+                    <artifactId>netty-codec-http2</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>io.grpc</groupId>
@@ -89,15 +95,14 @@
             <groupId>io.netty</groupId>
             <artifactId>netty-tcnative-openssl-static</artifactId>
             <version>2.0.9.Final-SNAPSHOT</version>
-            <systemPath>${project.basedir}/lib/netty-tcnative-openssl-static-2.0.9.Final-SNAPSHOT-osx-x86_64.jar
-            </systemPath>
+            <systemPath>${project.basedir}/lib/netty-tcnative-openssl-static-2.0.9.Final-SNAPSHOT-osx-x86_64.jar</systemPath>
             <scope>system</scope>
         </dependency>
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-codec-http2</artifactId>
             <version>4.1.26.Final-SNAPSHOT</version>
-            <systemPath>${project.basedir}/lib/netty-handler-4.1.26.Final-SNAPSHOT.jar</systemPath>
+            <systemPath>${project.basedir}/lib/netty-codec-http2-4.1.26.Final-SNAPSHOT.jar</systemPath>
             <scope>system</scope>
         </dependency>
         <!-- https://mvnrepository.com/artifact/com.google.protobuf/protobuf-java -->
