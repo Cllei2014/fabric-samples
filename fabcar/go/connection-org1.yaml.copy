@@ -1,0 +1,119 @@
+---
+name: first-network-org1
+version: 1.0.0
+client:
+  organization: Org1
+  logging:
+    level: debug
+   # Some SDKs support pluggable KV stores, the properties under "credentialStore"
+  # are implementation specific
+  credentialStore:
+    # [Optional]. Used by user store. Not needed if all credentials are embedded in configuration
+    # and enrollments are performed elswhere.
+    path: "/tmp/state-store"
+
+    # [Optional]. Specific to the CryptoSuite implementation used by GO SDK. Software-based implementations
+    # requiring a key store. PKCS#11 based implementations does not.
+    cryptoStore:
+      # Specific to the underlying KeyValueStore that backs the crypto key store.
+      path: /tmp/msp
+  BCCSP:
+    security:
+     enabled: true
+     default:
+      provider: "GM"
+     hashAlgorithm: "SM3"
+     softVerify: true
+     level: 256
+  connection:
+    timeout:
+      peer:
+        endorser: '300'
+organizations:
+  Org1:
+    mspid: Org1MSP
+    # This org's MSP store (absolute path or relative to client.cryptoconfig)
+    cryptoPath:  /Users/yin/projects/fabric/fabric-samples/first-network/crypto-config/peerOrganizations/org1.example.com/msp
+    peers:
+    - peer0.org1.example.com
+    - peer1.org1.example.com
+    certificateAuthorities:
+    - ca.org1.example.com
+peers:
+  peer0.org1.example.com:
+    url: grpc://localhost:7051
+    tlsCACerts:
+      pem: |
+        -----BEGIN CERTIFICATE-----
+        MIICWDCCAf2gAwIBAgIQYjSmLxyz8RBn6DBb9hum4DAKBggqgRzPVQGDdTB2MQsw
+        CQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZy
+        YW5jaXNjbzEZMBcGA1UEChMQb3JnMS5leGFtcGxlLmNvbTEfMB0GA1UEAxMWdGxz
+        Y2Eub3JnMS5leGFtcGxlLmNvbTAeFw0yMDExMDIwNzQxMDBaFw0zMDEwMzEwNzQx
+        MDBaMHYxCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpDYWxpZm9ybmlhMRYwFAYDVQQH
+        Ew1TYW4gRnJhbmNpc2NvMRkwFwYDVQQKExBvcmcxLmV4YW1wbGUuY29tMR8wHQYD
+        VQQDExZ0bHNjYS5vcmcxLmV4YW1wbGUuY29tMFkwEwYHKoZIzj0CAQYIKoEcz1UB
+        gi0DQgAEDl7U8Y89V81tQRTmdWgnA6FTFUYOoI+EGO3XAIKH07Nt9yfsSHn0rglW
+        r7j76UzK83zFkjjQfsra2w0xED6y/6NtMGswDgYDVR0PAQH/BAQDAgGmMB0GA1Ud
+        JQQWMBQGCCsGAQUFBwMCBggrBgEFBQcDATAPBgNVHRMBAf8EBTADAQH/MCkGA1Ud
+        DgQiBCAbYo3jxG0LWFs/c9jHujOGrEa5iSImsqo9jlaJ6Tz3tjAKBggqgRzPVQGD
+        dQNJADBGAiEAkmb/iNBHQLTqQBDFBA/UpNfF+zabXiYORvQNwPhskgECIQDlsSPK
+        kVCTWw4p+94/4jtafv+gl8iO/YFhLcRcGw8xBg==
+        -----END CERTIFICATE-----
+        
+    grpcOptions:
+      ssl-target-name-override: peer0.org1.example.com
+      hostnameOverride: peer0.org1.example.com
+  peer1.org1.example.com:
+    url: grpc://localhost:8051
+    tlsCACerts:
+      pem: |
+        -----BEGIN CERTIFICATE-----
+        MIICWDCCAf2gAwIBAgIQYjSmLxyz8RBn6DBb9hum4DAKBggqgRzPVQGDdTB2MQsw
+        CQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZy
+        YW5jaXNjbzEZMBcGA1UEChMQb3JnMS5leGFtcGxlLmNvbTEfMB0GA1UEAxMWdGxz
+        Y2Eub3JnMS5leGFtcGxlLmNvbTAeFw0yMDExMDIwNzQxMDBaFw0zMDEwMzEwNzQx
+        MDBaMHYxCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpDYWxpZm9ybmlhMRYwFAYDVQQH
+        Ew1TYW4gRnJhbmNpc2NvMRkwFwYDVQQKExBvcmcxLmV4YW1wbGUuY29tMR8wHQYD
+        VQQDExZ0bHNjYS5vcmcxLmV4YW1wbGUuY29tMFkwEwYHKoZIzj0CAQYIKoEcz1UB
+        gi0DQgAEDl7U8Y89V81tQRTmdWgnA6FTFUYOoI+EGO3XAIKH07Nt9yfsSHn0rglW
+        r7j76UzK83zFkjjQfsra2w0xED6y/6NtMGswDgYDVR0PAQH/BAQDAgGmMB0GA1Ud
+        JQQWMBQGCCsGAQUFBwMCBggrBgEFBQcDATAPBgNVHRMBAf8EBTADAQH/MCkGA1Ud
+        DgQiBCAbYo3jxG0LWFs/c9jHujOGrEa5iSImsqo9jlaJ6Tz3tjAKBggqgRzPVQGD
+        dQNJADBGAiEAkmb/iNBHQLTqQBDFBA/UpNfF+zabXiYORvQNwPhskgECIQDlsSPK
+        kVCTWw4p+94/4jtafv+gl8iO/YFhLcRcGw8xBg==
+        -----END CERTIFICATE-----
+        
+    grpcOptions:
+      ssl-target-name-override: peer1.org1.example.com
+      hostnameOverride: peer1.org1.example.com
+certificateAuthorities:
+  ca.org1.example.com:
+    # [Optional] Default: Infer from hostname
+    url: http://localhost:7054
+    # [Optional] The optional name of the CA.
+    caName: ca-org1
+    tlsCACerts:
+      pem: 
+        - |-
+          -----BEGIN CERTIFICATE-----
+          MIICUjCCAfegAwIBAgIQOC89oDZqAXH7TaX9hce/gTAKBggqgRzPVQGDdTBzMQsw
+          CQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZy
+          YW5jaXNjbzEZMBcGA1UEChMQb3JnMS5leGFtcGxlLmNvbTEcMBoGA1UEAxMTY2Eu
+          b3JnMS5leGFtcGxlLmNvbTAeFw0yMDExMDIwNzQxMDBaFw0zMDEwMzEwNzQxMDBa
+          MHMxCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpDYWxpZm9ybmlhMRYwFAYDVQQHEw1T
+          YW4gRnJhbmNpc2NvMRkwFwYDVQQKExBvcmcxLmV4YW1wbGUuY29tMRwwGgYDVQQD
+          ExNjYS5vcmcxLmV4YW1wbGUuY29tMFkwEwYHKoZIzj0CAQYIKoEcz1UBgi0DQgAE
+          yubWnEeiP3bIKoL89U3A9UVFim7elQ7Sd/6JBYpgVo3Yudm3hWA9LnUQg3fgcZGn
+          VXpIgKNXelDWE/IBNdpHfqNtMGswDgYDVR0PAQH/BAQDAgGmMB0GA1UdJQQWMBQG
+          CCsGAQUFBwMCBggrBgEFBQcDATAPBgNVHRMBAf8EBTADAQH/MCkGA1UdDgQiBCBg
+          xGpqp2HAxWW1zfst4cAufiFYD7b+rtHqTP2WvOrpqzAKBggqgRzPVQGDdQNJADBG
+          AiEAoStsHVGPCIos2Bbb7pKZCNyRn2Nvx6Oa9NcgUM/yRIECIQDTewvy1v302QCC
+          qNixXr1NBPjhpX0HfiD/HpS6po82Og==
+          -----END CERTIFICATE-----
+    # Fabric-CA supports dynamic user enrollment via REST APIs. A "root" user, a.k.a registrar, is
+    # needed to enroll and invoke new users.
+    registrar:
+      enrollId: admin
+      enrollSecret: adminpw
+    httpOptions:
+      verify: false
