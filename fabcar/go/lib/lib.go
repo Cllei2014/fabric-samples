@@ -1,4 +1,4 @@
-package main
+package lib
 
 import (
 	"fmt"
@@ -11,37 +11,6 @@ import (
 	"github.com/tw-bc-group/fabric-sdk-go-gm/pkg/msp"
 	"path/filepath"
 )
-
-var caServerURL string
-
-const (
-	configFile = "/Users/yin/projects/fabric/fabric-samples/first-network/connection-org1.yaml"
-)
-
-type clientFixture struct {
-	cryptoSuiteConfig core.CryptoSuiteConfig
-	identityConfig    mspid.IdentityConfig
-}
-
-func main() {
-
-	// Initiate the sdk using the config file
-	client := clientFixture{}
-	//create the CA instance
-	sdk := client.setup()
-
-	fmt.Printf("------- EnrollUser %s------\n", "admin")
-
-	EnrollUser(sdk, "admin", "adminpw")
-
-	//fmt.Printf("------- EnrollUser %s------\n", "yin")
-
-	//EnrollUser(sdk, "yin","yin")
-
-	//fmt.Printf("------- RegisterlUser %s------\n", "yin")
-
-	RegisterlUser(sdk, "yin", "yin", "department1")
-}
 
 //EnrollUser enroll a user have registerd
 func EnrollUser(sdk *fabsdk.FabricSDK, username string, password string) (bool, error) {
@@ -93,7 +62,12 @@ func RegisterlUser(sdk *fabsdk.FabricSDK, username, password, department string)
 	return nil
 }
 
-func (f *clientFixture) setup() *fabsdk.FabricSDK {
+type ClientFixture struct {
+	cryptoSuiteConfig core.CryptoSuiteConfig
+	identityConfig    mspid.IdentityConfig
+}
+
+func (f *ClientFixture) Setup(configFile string) *fabsdk.FabricSDK {
 	var err error
 
 	configPath := filepath.Join(configFile)
