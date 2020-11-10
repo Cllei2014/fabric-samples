@@ -10,3 +10,5 @@
 .DS_Store
 .project
 .idea
+/first-network-ica/connection-org*
+/first-network/connection-org*

@@ -13,15 +13,6 @@
  */
 package org.hyperledger.fabric.sdk.transaction;
 
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.xml.bind.DatatypeConverter;
-
 import com.google.protobuf.ByteString;
 import com.google.protobuf.Timestamp;
 import com.google.protobuf.util.Timestamps;
@@ -52,6 +43,14 @@ import org.hyperledger.fabric.sdk.identity.X509Enrollment;
 import org.hyperledger.fabric.sdk.security.CryptoPrimitives;
 import org.hyperledger.fabric.sdk.security.CryptoSuite;
 
+import javax.xml.bind.DatatypeConverter;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import static java.lang.String.format;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.hyperledger.fabric.sdk.helper.Utils.logString;
@@ -63,7 +62,7 @@ import static org.hyperledger.fabric.sdk.helper.Utils.toHexString;
 public final class ProtoUtils {
 
     private static final Log logger = LogFactory.getLog(ProtoUtils.class);
-    private static final boolean isDebugLevel = logger.isDebugEnabled();
+    private static final boolean isDebugLevel = true;
     public static CryptoSuite suite;
 
     /**

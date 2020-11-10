@@ -5,7 +5,6 @@ SPDX-License-Identifier: Apache-2.0
 package org.example;
 
 import org.hyperledger.fabric.sdk.security.CryptoSM;
-import org.hyperledger.fabric.sdk.security.CryptoSuite;
 import org.junit.Assert;
 import org.junit.Test;
 

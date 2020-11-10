@@ -14,6 +14,10 @@ import org.hyperledger.fabric.gateway.Network;
 import org.hyperledger.fabric.gateway.Wallet;
 import org.hyperledger.fabric.sdk.helper.Config;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.security.Security;
+
 public class ClientApp {
     static String userName = RegisterUser.userName;
 
