@@ -1,0 +1,107 @@
+---
+name: first-network-org1
+version: 1.0.0
+client:
+  organization: Org1
+  connection:
+    timeout:
+      peer:
+        endorser: '300'
+  logging:
+    level: debug
+   # Some SDKs support pluggable KV stores, the properties under "credentialStore"
+  # are implementation specific
+  credentialStore:
+    # [Optional]. Used by user store. Not needed if all credentials are embedded in configuration
+    # and enrollments are performed elswhere.
+    path: "/tmp/state-store"
+
+    # [Optional]. Specific to the CryptoSuite implementation used by GO SDK. Software-based implementations
+    # requiring a key store. PKCS#11 based implementations does not.
+    cryptoStore:
+      # Specific to the underlying KeyValueStore that backs the crypto key store.
+      path: /tmp/msp
+  BCCSP:
+    security:
+     enabled: true
+     default:
+      provider: "GM"
+     hashAlgorithm: "SM3"
+     softVerify: true
+     level: 256
+organizations:
+  Org1:
+    mspid: Org1MSP
+    # This org's MSP store (absolute path or relative to client.cryptoconfig)
+    cryptoPath:  /Users/yin/projects/fabric/fabric-samples/first-network/crypto-config/peerOrganizations/org1.example.com/msp
+    peers:
+    - peer0.org1.example.com
+    - peer1.org1.example.com
+    certificateAuthorities:
+    - ca.org1.example.com
+peers:
+  peer0.org1.example.com:
+    url: grpcs://localhost:7051
+    tlsCACerts:
+      pem: |
+        -----BEGIN CERTIFICATE-----
+        MIICLjCCAdWgAwIBAgIUSUqOslJQ/OLS/2XvYnZyKoBYLRUwCgYIKoEcz1UBg3Uw
+        bjELMAkGA1UEBhMCQ04xEjAQBgNVBAgTCVNoYW5nIEhhaTEVMBMGA1UEChMMVGhv
+        dWdodFdvcmtzMRYwFAYDVQQLEw1CbG9ja2NoYWluIEJVMRwwGgYDVQQDExNjYS5v
+        cmcxLmV4YW1wbGUuY29tMB4XDTIwMTExMDAyNDkwMFoXDTM1MTEwNzAyNDkwMFow
+        bjELMAkGA1UEBhMCQ04xEjAQBgNVBAgTCVNoYW5nIEhhaTEVMBMGA1UEChMMVGhv
+        dWdodFdvcmtzMRYwFAYDVQQLEw1CbG9ja2NoYWluIEJVMRwwGgYDVQQDExNjYS5v
+        cmcxLmV4YW1wbGUuY29tMFkwEwYHKoZIzj0CAQYIKoEcz1UBgi0DQgAEmQblNUKB
+        0b85TbNaCe+JKcatFK/EorNyiLTb/iGuM5KdvF60XdZ+4K96kpO85aLAoijOuAGp
+        oRg0Xwn9rV1+H6NRME8wDgYDVR0PAQH/BAQDAgEGMBIGA1UdEwEB/wQIMAYBAf8C
+        AQEwKQYDVR0OBCIEICUgVFvpCFk0YdopkKMxrrL2QXAC2jUEijHqK6g/1LVRMAoG
+        CCqBHM9VAYN1A0cAMEQCIBCt60Sssfztup8g+owsP/Vxwx3rgKcK8bvG9Qzrskzt
+        AiBjuoza7WzGxtbzhzHDYow7OU4DyAH4FXi6LsYCCzx1GQ==
+        -----END CERTIFICATE-----
+        
+    grpcOptions:
+      ssl-target-name-override: peer0.org1.example.com
+      hostnameOverride: peer0.org1.example.com
+  peer1.org1.example.com:
+    url: grpcs://localhost:8051
+    tlsCACerts:
+      pem: |
+        -----BEGIN CERTIFICATE-----
+        MIICLjCCAdWgAwIBAgIUSUqOslJQ/OLS/2XvYnZyKoBYLRUwCgYIKoEcz1UBg3Uw
+        bjELMAkGA1UEBhMCQ04xEjAQBgNVBAgTCVNoYW5nIEhhaTEVMBMGA1UEChMMVGhv
+        dWdodFdvcmtzMRYwFAYDVQQLEw1CbG9ja2NoYWluIEJVMRwwGgYDVQQDExNjYS5v
+        cmcxLmV4YW1wbGUuY29tMB4XDTIwMTExMDAyNDkwMFoXDTM1MTEwNzAyNDkwMFow
+        bjELMAkGA1UEBhMCQ04xEjAQBgNVBAgTCVNoYW5nIEhhaTEVMBMGA1UEChMMVGhv
+        dWdodFdvcmtzMRYwFAYDVQQLEw1CbG9ja2NoYWluIEJVMRwwGgYDVQQDExNjYS5v
+        cmcxLmV4YW1wbGUuY29tMFkwEwYHKoZIzj0CAQYIKoEcz1UBgi0DQgAEmQblNUKB
+        0b85TbNaCe+JKcatFK/EorNyiLTb/iGuM5KdvF60XdZ+4K96kpO85aLAoijOuAGp
+        oRg0Xwn9rV1+H6NRME8wDgYDVR0PAQH/BAQDAgEGMBIGA1UdEwEB/wQIMAYBAf8C
+        AQEwKQYDVR0OBCIEICUgVFvpCFk0YdopkKMxrrL2QXAC2jUEijHqK6g/1LVRMAoG
+        CCqBHM9VAYN1A0cAMEQCIBCt60Sssfztup8g+owsP/Vxwx3rgKcK8bvG9Qzrskzt
+        AiBjuoza7WzGxtbzhzHDYow7OU4DyAH4FXi6LsYCCzx1GQ==
+        -----END CERTIFICATE-----
+        
+    grpcOptions:
+      ssl-target-name-override: peer1.org1.example.com
+      hostnameOverride: peer1.org1.example.com
+certificateAuthorities:
+  ca.org1.example.com:
+    url: https://localhost:7054
+    caName: ca-org1
+    
+    tlsCACerts:
+      # Client key and cert for SSL handshake with Fabric CA
+      client:
+        key:
+          path: /Users/yin/projects/fabric/fabric-samples/first-network/fabric-ica/org1/ica.key
+        cert:
+          path: /Users/yin/projects/fabric/fabric-samples/first-network/fabric-ica/org1/ica.cert
+      path: /Users/yin/projects/fabric/fabric-samples/first-network/crypto-config/fabric-ca/org1/tls-cert.pem
+        
+    httpOptions:
+      verify: false
+    # Fabric-CA supports dynamic user enrollment via REST APIs. A "root" user, a.k.a registrar, is
+    # needed to enroll and invoke new users.
+    registrar:
+      enrollId: admin
+      enrollSecret: adminpw
