@@ -32,7 +32,7 @@ client:
 organizations:
   Org1:
     mspid: Org1MSP
-    # This org's MSP store (absolute path or relative to client.cryptoconfig)
+     # This org's MSP store (absolute path or relative to client.cryptoconfig)
     cryptoPath:  /Users/yin/projects/fabric/fabric-samples/first-network/crypto-config/peerOrganizations/org1.example.com/msp
     peers:
     - peer0.org1.example.com
@@ -43,44 +43,15 @@ peers:
   peer0.org1.example.com:
     url: grpcs://localhost:7051
     tlsCACerts:
-      pem: |
-        -----BEGIN CERTIFICATE-----
-        MIICLjCCAdWgAwIBAgIUSUqOslJQ/OLS/2XvYnZyKoBYLRUwCgYIKoEcz1UBg3Uw
-        bjELMAkGA1UEBhMCQ04xEjAQBgNVBAgTCVNoYW5nIEhhaTEVMBMGA1UEChMMVGhv
-        dWdodFdvcmtzMRYwFAYDVQQLEw1CbG9ja2NoYWluIEJVMRwwGgYDVQQDExNjYS5v
-        cmcxLmV4YW1wbGUuY29tMB4XDTIwMTExMDAyNDkwMFoXDTM1MTEwNzAyNDkwMFow
-        bjELMAkGA1UEBhMCQ04xEjAQBgNVBAgTCVNoYW5nIEhhaTEVMBMGA1UEChMMVGhv
-        dWdodFdvcmtzMRYwFAYDVQQLEw1CbG9ja2NoYWluIEJVMRwwGgYDVQQDExNjYS5v
-        cmcxLmV4YW1wbGUuY29tMFkwEwYHKoZIzj0CAQYIKoEcz1UBgi0DQgAEmQblNUKB
-        0b85TbNaCe+JKcatFK/EorNyiLTb/iGuM5KdvF60XdZ+4K96kpO85aLAoijOuAGp
-        oRg0Xwn9rV1+H6NRME8wDgYDVR0PAQH/BAQDAgEGMBIGA1UdEwEB/wQIMAYBAf8C
-        AQEwKQYDVR0OBCIEICUgVFvpCFk0YdopkKMxrrL2QXAC2jUEijHqK6g/1LVRMAoG
-        CCqBHM9VAYN1A0cAMEQCIBCt60Sssfztup8g+owsP/Vxwx3rgKcK8bvG9Qzrskzt
-        AiBjuoza7WzGxtbzhzHDYow7OU4DyAH4FXi6LsYCCzx1GQ==
-        -----END CERTIFICATE-----
-        
+      # path: ${FABRIC_SDK_GO_PROJECT_PATH}/${CRYPTOCONFIG_FIXTURES_PATH}/peerOrganizations/org1.example.com/tlsca/tlsca.org1.example.com-cert.pem
+      path: /Users/yin/projects/fabric/fabric-samples/first-network/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/tlscacerts/tls-localhost-7054-ca-org1.pem
     grpcOptions:
       ssl-target-name-override: peer0.org1.example.com
       hostnameOverride: peer0.org1.example.com
   peer1.org1.example.com:
     url: grpcs://localhost:8051
     tlsCACerts:
-      pem: |
-        -----BEGIN CERTIFICATE-----
-        MIICLjCCAdWgAwIBAgIUSUqOslJQ/OLS/2XvYnZyKoBYLRUwCgYIKoEcz1UBg3Uw
-        bjELMAkGA1UEBhMCQ04xEjAQBgNVBAgTCVNoYW5nIEhhaTEVMBMGA1UEChMMVGhv
-        dWdodFdvcmtzMRYwFAYDVQQLEw1CbG9ja2NoYWluIEJVMRwwGgYDVQQDExNjYS5v
-        cmcxLmV4YW1wbGUuY29tMB4XDTIwMTExMDAyNDkwMFoXDTM1MTEwNzAyNDkwMFow
-        bjELMAkGA1UEBhMCQ04xEjAQBgNVBAgTCVNoYW5nIEhhaTEVMBMGA1UEChMMVGhv
-        dWdodFdvcmtzMRYwFAYDVQQLEw1CbG9ja2NoYWluIEJVMRwwGgYDVQQDExNjYS5v
-        cmcxLmV4YW1wbGUuY29tMFkwEwYHKoZIzj0CAQYIKoEcz1UBgi0DQgAEmQblNUKB
-        0b85TbNaCe+JKcatFK/EorNyiLTb/iGuM5KdvF60XdZ+4K96kpO85aLAoijOuAGp
-        oRg0Xwn9rV1+H6NRME8wDgYDVR0PAQH/BAQDAgEGMBIGA1UdEwEB/wQIMAYBAf8C
-        AQEwKQYDVR0OBCIEICUgVFvpCFk0YdopkKMxrrL2QXAC2jUEijHqK6g/1LVRMAoG
-        CCqBHM9VAYN1A0cAMEQCIBCt60Sssfztup8g+owsP/Vxwx3rgKcK8bvG9Qzrskzt
-        AiBjuoza7WzGxtbzhzHDYow7OU4DyAH4FXi6LsYCCzx1GQ==
-        -----END CERTIFICATE-----
-        
+      path: /Users/yin/projects/fabric/fabric-samples/first-network/crypto-config/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/tls/tlscacerts/tls-localhost-7054-ca-org1.pem
     grpcOptions:
       ssl-target-name-override: peer1.org1.example.com
       hostnameOverride: peer1.org1.example.com
@@ -88,7 +59,6 @@ certificateAuthorities:
   ca.org1.example.com:
     url: https://localhost:7054
     caName: ca-org1
-    
     tlsCACerts:
       # Client key and cert for SSL handshake with Fabric CA
       client:
