@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	configFile = "../../first-network/connection-org1.yaml"
+	configFile = "connection-org1.tls.yaml"
 )
 
 func main() {
@@ -17,7 +17,11 @@ func main() {
 	sdk := client.Setup(configFile)
 
 	fmt.Printf("------- EnrollUser %s------\n", "admin")
-	lib.EnrollUser(sdk, "admin", "adminpw")
+	_, err := lib.EnrollUser(sdk, "admin", "adminpw")
+	if err != nil {
+		fmt.Printf("Failed to EnrollUser: %s\n", err)
+		os.Exit(1)
+	}
 
 	fmt.Printf("------- RegisterlUser %s------\n", "yin")
 	lib.RegisterlUser(sdk, "yin1", "yin1", "")
