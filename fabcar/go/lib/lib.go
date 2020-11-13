@@ -193,7 +193,7 @@ func PopulateWallet(wallet *gateway.Wallet) error {
 	return nil
 }
 
-func GetContract() (error, *gateway.Contract) {
+func GetContract(configPath string) (error, *gateway.Contract) {
 	os.Setenv("DISCOVERY_AS_LOCALHOST", "true")
 	wallet, err := gateway.NewFileSystemWallet("wallet")
 	if err != nil {
@@ -209,12 +209,7 @@ func GetContract() (error, *gateway.Contract) {
 		}
 	}
 
-	ccpPath := filepath.Join(
-		"..",
-		"..",
-		"first-network",
-		"connection-org1.yaml",
-	)
+	ccpPath := filepath.Join(configPath)
 
 	gw, err := gateway.Connect(
 		gateway.WithConfig(config.FromFile(filepath.Clean(ccpPath))),
