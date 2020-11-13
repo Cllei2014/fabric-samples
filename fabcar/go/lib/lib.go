@@ -149,7 +149,7 @@ func QueryAllCars(contract *gateway.Contract) {
 	fmt.Println(string(result))
 }
 
-func PopulateWallet(wallet *gateway.Wallet) error {
+func PopulateWallet(wallet *gateway.Wallet, walletName string) error {
 	credPath := filepath.Join(
 		"..",
 		"..",
@@ -186,14 +186,14 @@ func PopulateWallet(wallet *gateway.Wallet) error {
 
 	identity := gateway.NewX509Identity("Org1MSP", string(cert), string(key))
 
-	err = wallet.Put("appUser", identity)
+	err = wallet.Put(walletName, identity)
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func GetContract(configPath string) (error, *gateway.Contract) {
+func GetContract(configPath string, walletName string) (error, *gateway.Contract) {
 	os.Setenv("DISCOVERY_AS_LOCALHOST", "true")
 	wallet, err := gateway.NewFileSystemWallet("wallet")
 	if err != nil {
@@ -201,8 +201,8 @@ func GetContract(configPath string) (error, *gateway.Contract) {
 		os.Exit(1)
 	}
 
-	if !wallet.Exists("appUser") {
-		err = PopulateWallet(wallet)
+	if !wallet.Exists(walletName) {
+		err = PopulateWallet(wallet, walletName)
 		if err != nil {
 			fmt.Printf("Failed to populate wallet contents: %s\n", err)
 			os.Exit(1)
@@ -213,7 +213,7 @@ func GetContract(configPath string) (error, *gateway.Contract) {
 
 	gw, err := gateway.Connect(
 		gateway.WithConfig(config.FromFile(filepath.Clean(ccpPath))),
-		gateway.WithIdentity(wallet, "appUser"),
+		gateway.WithIdentity(wallet, walletName),
 	)
 	if err != nil {
 		fmt.Printf("Failed to connect to gateway: %s\n", err)

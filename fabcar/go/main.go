@@ -26,7 +26,7 @@ func main() {
 	fmt.Printf("------- RegisterlUser %s------\n", "yin")
 	lib.RegisterlUser(sdk, "yin", "yin", "")
 
-	err, contract := lib.GetContract(configFile)
+	err, contract := lib.GetContract(configFile, "yin-wallet")
 
 	if err != nil {
 		fmt.Printf("Failed to GetContract: %s\n", err)
