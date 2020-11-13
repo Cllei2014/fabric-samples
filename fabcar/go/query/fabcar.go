@@ -59,39 +59,57 @@ func main() {
 
 	contract := network.GetContract("fabcar")
 
+	queryAllCars(err, contract)
+	carName := "Car10"
+	createCar(err, contract, carName)
+	owner := "Archie"
+	changeOwn(err, contract, carName, owner)
+}
+
+func changeOwn(err error, contract *gateway.Contract, carName string, owner string) {
+	result, err := contract.SubmitTransaction("changeCarOwner", carName, owner)
+	if err != nil {
+		fmt.Printf("Failed to submit transaction: %s\n", err)
+		os.Exit(1)
+	}
+
+	result, err = contract.EvaluateTransaction("queryCar", carName)
+	if err != nil {
+		fmt.Printf("Failed to evaluate transaction: %s\n", err)
+		os.Exit(1)
+	}
+	fmt.Println(string(result))
+}
+
+func createCar(err error, contract *gateway.Contract, carName string) {
+	fmt.Printf("------- createCar %s------\n", carName)
+
+	result, err := contract.SubmitTransaction("createCar", carName, "VW", "Polo", "Grey", "Mary")
+	if err != nil {
+		fmt.Printf("Failed to submit transaction: %s\n", err)
+		os.Exit(1)
+	}
+	fmt.Println(string(result))
+
+	fmt.Printf("------- queryCar %s ------\n", carName)
+
+	result, err = contract.EvaluateTransaction("queryCar", carName)
+	if err != nil {
+		fmt.Printf("Failed to evaluate transaction: %s\n", err)
+		os.Exit(1)
+	}
+	fmt.Println(string(result))
+}
+
+func queryAllCars(err error, contract *gateway.Contract) {
+	fmt.Printf("------- queryAllCars ------\n")
+
 	result, err := contract.EvaluateTransaction("queryAllCars")
 	if err != nil {
 		fmt.Printf("Failed to evaluate transaction: %s\n", err)
 		os.Exit(1)
 	}
 	fmt.Println(string(result))
-
-	//result, err = contract.SubmitTransaction("createCar", "CAR10", "VW", "Polo", "Grey", "Mary")
-	//if err != nil {
-	//	fmt.Printf("Failed to submit transaction: %s\n", err)
-	//	os.Exit(1)
-	//}
-	//fmt.Println(string(result))
-	//
-	//result, err = contract.EvaluateTransaction("queryCar", "CAR10")
-	//if err != nil {
-	//	fmt.Printf("Failed to evaluate transaction: %s\n", err)
-	//	os.Exit(1)
-	//}
-	//fmt.Println(string(result))
-	//
-	//_, err = contract.SubmitTransaction("changeCarOwner", "CAR10", "Archie")
-	//if err != nil {
-	//	fmt.Printf("Failed to submit transaction: %s\n", err)
-	//	os.Exit(1)
-	//}
-	//
-	//result, err = contract.EvaluateTransaction("queryCar", "CAR10")
-	//if err != nil {
-	//	fmt.Printf("Failed to evaluate transaction: %s\n", err)
-	//	os.Exit(1)
-	//}
-	//fmt.Println(string(result))
 }
 
 func populateWallet(wallet *gateway.Wallet) error {
