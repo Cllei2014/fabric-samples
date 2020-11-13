@@ -5,10 +5,8 @@ import (
 	"fmt"
 )
 
-var caServerURL string
-
 const (
-	configFile = "/Users/yin/projects/fabric/fabric-samples/first-network/connection-org1.yaml"
+	configFile = "../../../first-network/connection-org1.yaml"
 )
 
 func main() {
