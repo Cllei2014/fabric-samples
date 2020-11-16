@@ -49,8 +49,8 @@ if [ "$BYFN_CA" = "no" ] ; then
 	echo y | ./byfn.sh up -n -s couchdb
 else
   # use zhong huan CA
-	# echo y | ./byfn.sh up -a -z -n -s couchdb
-	echo y | ./byfn.sh up -a -n -s couchdb
+	echo y | ./byfn.sh up -a -z -n -s couchdb
+	#echo y | ./byfn.sh up -a -n -s couchdb
 fi
 
 CONFIG_ROOT=/opt/gopath/src/github.com/hyperledger/fabric/peer
