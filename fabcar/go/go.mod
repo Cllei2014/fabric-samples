@@ -2,13 +2,6 @@ module fabcar
 
 go 1.14
 
-require (
-	github.com/Hyperledger-TWGC/tjfoc-gm v0.0.0-20201027032413-de75d571dd85 // indirect
-	github.com/tw-bc-group/fabric-sdk-go-gm v1.0.0-beta3-gm
-)
+require github.com/tw-bc-group/fabric-sdk-go-gm v0.0.0-20201113140502-14a4d343a496
 
-replace (
-	github.com/Hyperledger-TWGC/tjfoc-gm v0.0.0-20201027032413-de75d571dd85 => ./../../../tjfoc-gm
-	github.com/tw-bc-group/fabric-sdk-go-gm => ./../../../fabric-sdk-go-gm
-
-)
+replace github.com/Hyperledger-TWGC/tjfoc-gm v0.0.0-20201027032413-de75d571dd85 => github.com/tw-bc-group/tjfoc-gm v0.0.0-20201111115702-d6eb42f3ea58
