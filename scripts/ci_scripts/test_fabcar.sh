@@ -2,8 +2,8 @@
 
 SCRIP_PATH=$(readlink -f "$(dirname "$0")")
 
-docker build --build-arg IMAGE_CA=$IMAGE_CA \
-             --build-arg IMAGE_TOOLS=$IMAGE_TOOLS \
+docker build --build-arg IMAGE_CA=${IMAGE_CA-hyperledger/fabric-ca-gm:latest} \
+             --build-arg IMAGE_TOOLS=${IMAGE_TOOLS-hyperledger/fabric-tools-gm:latest} \
              -t hyperledger/fabric-tools-ca-gm:latest \
              - < $SCRIP_PATH/Dockerfile
 
