@@ -64,6 +64,19 @@ pipeline {
             }
 
         }
+	
+        stage('Test Go SDK') {
+
+            steps {
+
+                echo "Test Go SDK"
+                sh '''
+                ./scripts/ci_scripts/test_fabcar.sh ./runSDK.sh
+                '''
+
+            }
+
+        }
     }
 
     post {
