@@ -20,7 +20,7 @@ services:
     command: sh -c 'fabric-ca-server start -b admin:adminpw -d'
     volumes:
       - ./crypto-config/fabric-ca/org1:/etc/hyperledger/fabric-ca-server
-    container_name: ca_peerOrg1
+    container_name: org1.example.com
     networks:
       - byfn
 
@@ -35,7 +35,7 @@ services:
     command: sh -c 'fabric-ca-server start -b admin:adminpw -d'
     volumes:
       - ./crypto-config/fabric-ca/org2:/etc/hyperledger/fabric-ca-server
-    container_name: ca_peerOrg2
+    container_name: org2.example.com
     networks:
       - byfn
 

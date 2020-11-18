@@ -71,7 +71,7 @@ pipeline {
 
                 echo "Test Go SDK"
                 sh '''
-                ./scripts/ci_scripts/test_fabcar.sh ./runSDK.sh
+                ./scripts/ci_scripts/test_sdk.sh ./runSDK.sh
                 '''
 
             }

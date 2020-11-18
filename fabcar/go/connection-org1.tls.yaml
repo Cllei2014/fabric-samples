@@ -41,14 +41,14 @@ organizations:
     - ca.org1.example.com
 peers:
   peer0.org1.example.com:
-    url: grpcs://localhost:7051
+    url: grpcs://peer0.org1.example.com:7051
     tlsCACerts:
       path: ../../first-network/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/tlsintermediatecerts/tls-localhost-7054-ca-org1.pem
     grpcOptions:
       ssl-target-name-override: peer0.org1.example.com
       hostnameOverride: peer0.org1.example.com
   peer1.org1.example.com:
-    url: grpcs://localhost:8051
+    url: grpcs://peer1.org1.example.com:8051
     tlsCACerts:
       path: ../../first-network/crypto-config/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/tls/tlsintermediatecerts/tls-localhost-7054-ca-org1.pem
     grpcOptions:
@@ -56,7 +56,7 @@ peers:
       hostnameOverride: peer1.org1.example.com
 certificateAuthorities:
   ca.org1.example.com:
-    url: https://localhost:7054
+    url: https://org1.example.com:7054 # TODO: cannot use ca.org1.example.com because of certificate domain only support localhost and org1.example.com
     caName: ca-org1
     tlsCACerts:
       # Client key and cert for SSL handshake with Fabric CA
