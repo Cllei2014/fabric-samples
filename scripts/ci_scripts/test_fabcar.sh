@@ -1,8 +1,8 @@
 #!/bin/bash
 
 SCRIP_PATH=$(readlink -f "$(dirname "$0")")
-export UID=$(id -u)
-export GID=$(getent group docker | cut -d ':' -f 3)
+CURRENT_USER_ID=$(id -u)
+DOCKER_GROUP_ID=$(getent group docker | cut -d ':' -f 3)
 
 docker build --build-arg IMAGE_CA=${IMAGE_CA-hyperledger/fabric-ca-gm:latest} \
              --build-arg IMAGE_TOOLS=${IMAGE_TOOLS-hyperledger/fabric-tools-gm:latest} \
@@ -10,10 +10,10 @@ docker build --build-arg IMAGE_CA=${IMAGE_CA-hyperledger/fabric-ca-gm:latest} \
              - < $SCRIP_PATH/Dockerfile
 
 docker run --rm \
-    -u $UID:$GID \
+    -u "$CURRENT_USER_ID:$DOCKER_GROUP_ID" \
     -v "$PWD:$PWD" \
-    -v "$(which docker):$(which docker)" \
-    -v "$(which docker-compose):$(which docker-compose)" \
+    -v "$(command -v docker):$(command -v docker)" \
+    -v "$(command -v docker-compose):$(command -v docker-compose)" \
     -v "/var/run/docker.sock:/var/run/docker.sock" \
     -w "$PWD/fabcar" \
     -e "IMAGE_PEER" \
