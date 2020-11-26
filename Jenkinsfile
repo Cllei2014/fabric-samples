@@ -8,6 +8,7 @@ pipeline {
         string(name: 'IMAGE_TOOLS', defaultValue: "${env.DOCKER_REGISTRY}/twbc/fabric-tools-gm:latest")
         string(name: 'IMAGE_CCENV', defaultValue: "${env.DOCKER_REGISTRY}/twbc/fabric-ccenv-gm:latest")
         choice(name: 'BYFN_CA', choices: ['no', 'yes'])
+        string(name: 'START_FABCAR_TIMEOUT_MINS', defaultValue: '5')
     }
 
     environment {
@@ -45,9 +46,11 @@ pipeline {
             steps {
 
                 echo "Start fabcar"
-                sh '''
-                ./scripts/ci_scripts/test_fabcar.sh ./startFabric.sh
-                '''
+                timeout(params.START_FABCAR_TIMEOUT_MINS as int) {
+                    sh '''
+                    ./scripts/ci_scripts/test_fabcar.sh ./startFabric.sh
+                    '''
+                }
             }
 
         }
