@@ -56,7 +56,8 @@ peers:
       hostnameOverride: peer1.org1.example.com
 certificateAuthorities:
   ca.org1.example.com:
-    url: https://org1.example.com:7054 # TODO: cannot use ca.org1.example.com because of certificate domain only support localhost and org1.example.com
+    url: http://org1.example.com:7054 # TODO: cannot use ca.org1.example.com because of certificate domain only support localhost and org1.example.com
+   # url: https://org1.example.com:7054 # TODO: cannot use ca.org1.example.com because of certificate domain only support localhost and org1.example.com
     caName: ca-org1
     tlsCACerts:
       # Client key and cert for SSL handshake with Fabric CA
@@ -65,8 +66,7 @@ certificateAuthorities:
           path: ../../first-network/fabric-ica/org1/ica.key
         cert:
           path: ../../first-network/fabric-ica/org1/ica.cert
-      path: ../../first-network/crypto-config/fabric-ca/org1/tls-cert.pem
-        
+
     httpOptions:
       verify: false
     # Fabric-CA supports dynamic user enrollment via REST APIs. A "root" user, a.k.a registrar, is
