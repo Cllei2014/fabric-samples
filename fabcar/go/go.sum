@@ -278,6 +278,8 @@ github.com/tw-bc-group/fabric-sdk-go-gm v0.0.0-20201116090815-6f51ff7d3a28 h1:Jc
 github.com/tw-bc-group/fabric-sdk-go-gm v0.0.0-20201116090815-6f51ff7d3a28/go.mod h1:pTsB6xs2NQJAZLZ+/09xFmxiZjwJk8ev0d71btbcVxI=
 github.com/tw-bc-group/fabric-sdk-go-gm v0.0.0-20201126075404-03e1857bbc59 h1:R4rH2Az1Ng/2BTp0eZhtiC1xvcfg+LINDHgWtw3Z9vY=
 github.com/tw-bc-group/fabric-sdk-go-gm v0.0.0-20201126075404-03e1857bbc59/go.mod h1:pTsB6xs2NQJAZLZ+/09xFmxiZjwJk8ev0d71btbcVxI=
+github.com/tw-bc-group/fabric-sdk-go-gm v0.0.0-20201126085618-316903a8fad3 h1:xcOVCUYTXxIHfRWZCTVlWlb7pDR0mbAqQrGCXXT6nIg=
+github.com/tw-bc-group/fabric-sdk-go-gm v0.0.0-20201126085618-316903a8fad3/go.mod h1:pTsB6xs2NQJAZLZ+/09xFmxiZjwJk8ev0d71btbcVxI=
 github.com/tw-bc-group/net-go-gm v0.0.0-20201030055721-5906b2d70408 h1:SMXViaMOBbyeLwRUZ1FuT3yXXJ6omNA83wSPwPA15hY=
 github.com/tw-bc-group/net-go-gm v0.0.0-20201030055721-5906b2d70408/go.mod h1:AXgrqWHioYmKFNTKYNH3nVQi701PlOdUrD6dn7sIpCM=
 github.com/tw-bc-group/sarama v0.0.0-20201110085058-851d51e29742/go.mod h1:L/DCuMbRNYoj2JksrP2UJRTTsLdktr58Q9pIgNmH8cA=
