@@ -175,16 +175,27 @@ function networkUp() {
     IMAGE_TAG=$IMAGETAG docker-compose -f ${COMPOSE_FILE_CA} up -d 2>&1
     . crypto-config/fabric-ca/registerEnroll.sh
 
-    while :
+    for org in "org1" "org2" "ordererOrg"
+    do
+      echo "current org is ${org}"
+      waitSeconds=0
+     while :
       do
-        if [ ! -f "crypto-config/fabric-ca/org1/IssuerPublicKey" ]; then
+        if [ ! -f "crypto-config/fabric-ca/${org}/IssuerPublicKey" ]; then
           sleep 1
-          echo "wait for ca server startd..."
+          let waitSeconds++
+          echo "have waiting for ${org} ca server startd ${waitSeconds} seconds..."
+          if [ ${waitSeconds} -gt 10 ]; then
+            echo "waiting too long for ${org} ca, exit"
+            exit 1
+          fi
         else
           break
         fi
       done
+    done
 
+   
     infoln "Create Org1 Identities"
     createOrg1
 
