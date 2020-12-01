@@ -1,4 +1,4 @@
-module fabcar
+module github.com/tw-bc-group/fabric-samples/fabcar/go
 
 go 1.14
 
