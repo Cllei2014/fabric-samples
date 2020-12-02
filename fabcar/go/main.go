@@ -1,9 +1,10 @@
 package main
 
 import (
-	"fabcar/lib"
 	"fmt"
 	"os"
+
+	"github.com/tw-bc-group/fabric-samples/fabcar/go/lib"
 )
 
 const (
