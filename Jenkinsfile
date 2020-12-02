@@ -37,7 +37,7 @@ pipeline {
 
                 echo "Clean fabcar"
                 sh '''
-                ./scripts/ci_scripts/test_fabcar.sh ./stopFabric.sh
+                make fabcar-clean
                 '''
             }
 
@@ -50,7 +50,7 @@ pipeline {
                 echo "Start fabcar"
                 timeout(params.START_FABCAR_TIMEOUT_MINS as int) {
                     sh '''
-                    ./scripts/ci_scripts/test_fabcar.sh ./startFabric.sh
+                    make fabcar
                     '''
                 }
             }
@@ -76,7 +76,7 @@ pipeline {
 
                 echo "Test Go SDK"
                 sh '''
-                ./scripts/ci_scripts/test_sdk.sh ./runSDK.sh
+                make sdk-test
                 '''
 
             }
