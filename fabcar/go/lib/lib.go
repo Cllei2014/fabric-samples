@@ -88,8 +88,6 @@ func (f *ClientFixture) Setup(configFile string) *fabsdk.FabricSDK {
 	if err != nil {
 		fmt.Println(err)
 	}
-	defer sdk.Close()
-
 	configBackend, err := sdk.Config()
 	if err != nil {
 		panic(fmt.Sprintf("Failed to get config: %s", err))
@@ -119,17 +117,11 @@ func ChangeOwnAndSelectIt(contract *gateway.Contract, carName string, owner stri
 }
 
 func CreateCarAndSelectIt(contract *gateway.Contract, carName string) {
-	fmt.Printf("------- CreateCarAndSelectIt %s------\n", carName)
-
 	result, err := contract.SubmitTransaction("createCar", carName, "VW", "Polo", "Grey", "Mary")
 	if err != nil {
 		fmt.Printf("Failed to submit transaction: %s\n", err)
 		os.Exit(1)
 	}
-	fmt.Println(string(result))
-
-	fmt.Printf("------- queryCar %s ------\n", carName)
-
 	result, err = contract.EvaluateTransaction("queryCar", carName)
 	if err != nil {
 		fmt.Printf("Failed to evaluate transaction: %s\n", err)
@@ -139,8 +131,6 @@ func CreateCarAndSelectIt(contract *gateway.Contract, carName string) {
 }
 
 func QueryAllCars(contract *gateway.Contract) {
-	fmt.Printf("------- QueryAllCars ------\n")
-
 	result, err := contract.EvaluateTransaction("queryAllCars")
 	if err != nil {
 		fmt.Printf("Failed to evaluate transaction: %s\n", err)
