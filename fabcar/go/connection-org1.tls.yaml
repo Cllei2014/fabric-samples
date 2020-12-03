@@ -60,11 +60,11 @@ certificateAuthorities:
     caName: ca-org1
     tlsCACerts:
       # Client key and cert for SSL handshake with Fabric CA
-      client:
-        key:
-          path: ../../first-network/fabric-ica/org1/ica.key
-        cert:
-          path: ../../first-network/fabric-ica/org1/ica.cert
+#      client:
+#        key:
+#          path: ../../first-network/fabric-ica/org1/ica.key
+#        cert:
+#          path: ../../first-network/fabric-ica/org1/ica.cert
       path: ../../first-network/crypto-config/fabric-ca/org1/tls-cert.pem
         
     httpOptions:
