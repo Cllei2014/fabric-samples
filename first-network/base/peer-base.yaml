@@ -24,6 +24,7 @@ services:
       - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
       - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
       - CORE_CHAINCODE_GOLANG_RUNTIME="${IMAGE_CCENV}"
+      - ZHONGHUAN_CE_CONFIG=${ZHONGHUAN_CE_CONFIG}
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
     command: peer node start
 
