@@ -67,6 +67,7 @@ docker exec \
   -e CORE_PEER_ADDRESS=peer0.org1.example.com:7051 \
   -e CORE_PEER_MSPCONFIGPATH=${ORG1_MSPCONFIGPATH} \
   -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG1_TLS_ROOTCERT_FILE} \
+  -e ZHONGHUAN_CE_CONFIG=${ZHONGHUAN_CE_CONFIG} \
   cli \
   peer chaincode install \
     -n fabcar \
@@ -80,6 +81,7 @@ docker exec \
   -e CORE_PEER_ADDRESS=peer0.org2.example.com:9051 \
   -e CORE_PEER_MSPCONFIGPATH=${ORG2_MSPCONFIGPATH} \
   -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG2_TLS_ROOTCERT_FILE} \
+  -e ZHONGHUAN_CE_CONFIG=${ZHONGHUAN_CE_CONFIG} \
   cli \
   peer chaincode install \
     -n fabcar \
@@ -91,6 +93,7 @@ echo "Instantiating smart contract on mychannel"
 docker exec \
   -e CORE_PEER_LOCALMSPID=Org1MSP \
   -e CORE_PEER_MSPCONFIGPATH=${ORG1_MSPCONFIGPATH} \
+  -e ZHONGHUAN_CE_CONFIG=${ZHONGHUAN_CE_CONFIG} \
   cli \
   peer chaincode instantiate \
     -o orderer.example.com:7050 \
@@ -113,6 +116,7 @@ echo "The transaction is sent to the two peers with the chaincode installed (pee
 docker exec \
   -e CORE_PEER_LOCALMSPID=Org1MSP \
   -e CORE_PEER_MSPCONFIGPATH=${ORG1_MSPCONFIGPATH} \
+  -e ZHONGHUAN_CE_CONFIG=${ZHONGHUAN_CE_CONFIG} \
   cli \
   peer chaincode invoke \
     -o orderer.example.com:7050 \
