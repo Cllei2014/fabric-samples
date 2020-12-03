@@ -25,7 +25,7 @@ services:
     command: sh -c 'fabric-ca-server start -b admin:adminpw -d'
     volumes:
       - ./crypto-config/fabric-ca/org1:/etc/hyperledger/fabric-ca-server
-      - ./zhonghuan-ce/44e3d04020472479:/44e3d04020472479
+      - ./zhonghuan-ce:/var/zhonghuan:rw
     container_name: org1.example.com
     networks:
       - byfn
@@ -46,7 +46,7 @@ services:
     command: sh -c 'fabric-ca-server start -b admin:adminpw -d'
     volumes:
       - ./crypto-config/fabric-ca/org2:/etc/hyperledger/fabric-ca-server
-      - ./zhonghuan-ce/44e3d04020472479:/44e3d04020472479
+      - ./zhonghuan-ce:/var/zhonghuan:rw
     container_name: org2.example.com
     networks:
       - byfn
@@ -67,7 +67,7 @@ services:
     command: sh -c 'fabric-ca-server start -b admin:adminpw -d'
     volumes:
       - ./crypto-config/fabric-ca/ordererOrg:/etc/hyperledger/fabric-ca-server
-      - ./zhonghuan-ce/44e3d04020472479:/44e3d04020472479
+      - ./zhonghuan-ce:/var/zhonghuan:rw
     container_name: ca_orderer
     networks:
       - byfn

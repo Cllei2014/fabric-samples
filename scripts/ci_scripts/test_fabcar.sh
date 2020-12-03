@@ -1,7 +1,8 @@
 #!/bin/bash
 
 SCRIP_PATH=$(readlink -f "$(dirname "$0")")
-CURRENT_USER_ID=$(id -u)
+# fix unable write to zhonghuan private key db file
+CURRENT_USER_ID=0
 DOCKER_GROUP_ID=$(getent group docker | cut -d ':' -f 3)
 
 docker build --build-arg IMAGE_CA=${IMAGE_CA-hyperledger/fabric-ca-gm:latest} \
@@ -15,6 +16,7 @@ docker run --rm \
     -v "$(command -v docker):$(command -v docker)" \
     -v "$(command -v docker-compose):$(command -v docker-compose)" \
     -v "/var/run/docker.sock:/var/run/docker.sock" \
+    -v "$PWD/first-network/zhonghuan-ce:/var/zhonghuan" \
     -w "$PWD/fabcar" \
     -e "IMAGE_PEER" \
     -e "IMAGE_ORDERER" \
