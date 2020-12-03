@@ -49,7 +49,7 @@ services:
       - ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE=/var/hyperledger/orderer/tls/server.crt
       - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=/var/hyperledger/orderer/tls/server.key
       - ORDERER_GENERAL_CLUSTER_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
-        # - CORE_CHAINCODE_GOLANG_RUNTIME="${IMAGE_CCENV}"
+      - ZHONGHUAN_CE_CONFIG=${ZHONGHUAN_CE_CONFIG}
     volumes:
       - ../zhonghuan-ce/44e3d04020472479:/44e3d04020472479
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric
