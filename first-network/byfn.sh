@@ -156,6 +156,8 @@ function checkPrereqs() {
   done
 }
 
+CA_STARUP_TIMEOUT=20
+
 # Generate the needed certificates, the genesis block and start the network.
 function networkUp() {
   checkPrereqs
@@ -185,7 +187,7 @@ function networkUp() {
           sleep 1
           let waitSeconds++
           echo "have waiting for ${org} ca server startd ${waitSeconds} seconds..."
-          if [ ${waitSeconds} -gt 10 ]; then
+          if [ ${waitSeconds} -gt $CA_STARUP_TIMEOUT ]; then
             echo "waiting too long for ${org} ca, exit"
             exit 1
           fi
