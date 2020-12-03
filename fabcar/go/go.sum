@@ -305,6 +305,10 @@ github.com/tw-bc-group/fabric-sdk-go-gm v0.0.0-20201126085618-316903a8fad3 h1:xc
 github.com/tw-bc-group/fabric-sdk-go-gm v0.0.0-20201126085618-316903a8fad3/go.mod h1:pTsB6xs2NQJAZLZ+/09xFmxiZjwJk8ev0d71btbcVxI=
 github.com/tw-bc-group/fabric-sdk-go-gm v0.0.0-20201203012610-ce2eb0a76a3c h1:kw5Vz/VcvVppM/VWUAwYD92KdkkP7STwdZ8ahTsTwDQ=
 github.com/tw-bc-group/fabric-sdk-go-gm v0.0.0-20201203012610-ce2eb0a76a3c/go.mod h1:RwM6ARTUOagybxwtvHhJaSosKaGIWjI4dvxiGgSijXg=
+github.com/tw-bc-group/fabric-sdk-go-gm v0.0.0-20201203123503-90d4e67f6554 h1:BDmkMAEI0QbDyGMN9J1D44KaOy4wRoS96pSd68nmjMs=
+github.com/tw-bc-group/fabric-sdk-go-gm v0.0.0-20201203123503-90d4e67f6554/go.mod h1:v5U+T89C5OyAjVgKIg/aW/jCNVF+38yJVqM+JeNR4RI=
+github.com/tw-bc-group/fabric-sdk-go-gm v0.0.0-20201203123645-db01179a3ee0 h1:QbhG+mtgkatyOvzqT3xNPay4UT5Qf2ispvsLosFjWJI=
+github.com/tw-bc-group/fabric-sdk-go-gm v0.0.0-20201203123645-db01179a3ee0/go.mod h1:Bbo79bJNImdEKueuLbOV04I0I3vO/zuNnSFza6yJLjA=
 github.com/tw-bc-group/net-go-gm v0.0.0-20201030055721-5906b2d70408 h1:SMXViaMOBbyeLwRUZ1FuT3yXXJ6omNA83wSPwPA15hY=
 github.com/tw-bc-group/net-go-gm v0.0.0-20201030055721-5906b2d70408/go.mod h1:AXgrqWHioYmKFNTKYNH3nVQi701PlOdUrD6dn7sIpCM=
 github.com/tw-bc-group/sarama v0.0.0-20201110085058-851d51e29742/go.mod h1:L/DCuMbRNYoj2JksrP2UJRTTsLdktr58Q9pIgNmH8cA=
@@ -314,6 +318,10 @@ github.com/tw-bc-group/tjfoc-gm v0.0.0-20201126034628-7141b2053e0e h1:Y+Ch19lrgd
 github.com/tw-bc-group/tjfoc-gm v0.0.0-20201126034628-7141b2053e0e/go.mod h1:pjo29FaEP0cii6emm2Lw/+3UZxO2SGQrUXntmKUD37U=
 github.com/tw-bc-group/zhonghuan-ce v0.0.0-20201202033808-e0dd07d946ea h1:IWZ0dRhGze0HCfhHvILSgYVXJ11oeBR6jps7KCOp6+Q=
 github.com/tw-bc-group/zhonghuan-ce v0.0.0-20201202033808-e0dd07d946ea/go.mod h1:24e7E3Zec5CBPFyHRtRlvWdNxCZIEvox/g3VZuOLsZk=
+github.com/tw-bc-group/zhonghuan-ce v0.1.1-hotfix h1:2cgh+1QuGfL5Wl46+7TxTtpmNqrIUxPQLGreNamtHoM=
+github.com/tw-bc-group/zhonghuan-ce v0.1.1-hotfix/go.mod h1:24e7E3Zec5CBPFyHRtRlvWdNxCZIEvox/g3VZuOLsZk=
+github.com/tw-bc-group/zhonghuan-ce v0.1.1 h1:bOiH9Pr0+xYIIo4tclfTEmRK4GxAqu6DwYeBgQdiNX4=
+github.com/tw-bc-group/zhonghuan-ce v0.1.1/go.mod h1:24e7E3Zec5CBPFyHRtRlvWdNxCZIEvox/g3VZuOLsZk=
 github.com/ugorji/go v1.1.1/go.mod h1:hnLbHMwcvSihnDhEfx2/BzKp2xb0Y+ErdfYcrs9tkJQ=
 github.com/urfave/cli v1.18.0/go.mod h1:70zkFmudgCuE/ngEzBv17Jvp/497gISqfk5gWijbERA=
 github.com/valyala/bytebufferpool v1.0.0/go.mod h1:6bBcMArwyJ5K/AmCkWv1jt77kVWyCJ6HpOuEn7z0Csc=
