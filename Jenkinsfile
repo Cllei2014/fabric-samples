@@ -18,6 +18,7 @@ pipeline {
         IMAGE_TOOLS = "${params.IMAGE_TOOLS}"
         IMAGE_CCENV = "${params.IMAGE_CCENV}"
         BYFN_CA = "${params.BYFN_CA}"
+        ZHONGHUAN_CE_CONFIG = credentials('ZHONGHUAN_CE_CONFIG')
         ALIBABA_CLOUD_ACCESS_KEY_ID = credentials('ALIBABA_CLOUD_ACCESS_KEY_ID')
         ALIBABA_CLOUD_ACCESS_KEY_SECRET = credentials('ALIBABA_CLOUD_ACCESS_KEY_SECRET')
     }

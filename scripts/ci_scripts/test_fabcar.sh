@@ -25,6 +25,7 @@ docker run --rm \
     -e "ALIBABA_CLOUD_REGION" \
     -e "ALIBABA_CLOUD_ACCESS_KEY_ID" \
     -e "ALIBABA_CLOUD_ACCESS_KEY_SECRET" \
+    -e "ZHONGHUAN_CE_CONFIG" \
     --network host \
     hyperledger/fabric-tools-ca-gm:latest \
     $1
